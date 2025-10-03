@@ -1,9 +1,56 @@
-import { db, deterministicShuffle } from './app.js';
-import { collection, addDoc, serverTimestamp, query, where, onSnapshot, orderBy, deleteDoc, doc, connectFirestoreEmulator } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+import { db, auth, deterministicShuffle } from './app.js';
+import { collection, addDoc, serverTimestamp, query, where, onSnapshot, orderBy, deleteDoc, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
-// Check Firebase connection
-console.log('Firebase DB instance:', db);
-console.log('Connected to Firestore:', db._delegate?.settings?.host || 'production');
+// Auth UI elements
+const authSection = document.getElementById('authSection');
+const editorSection = document.getElementById('editorSection');
+const teacherEmail = document.getElementById('teacherEmail');
+const teacherPassword = document.getElementById('teacherPassword');
+const teacherSignIn = document.getElementById('teacherSignIn');
+const teacherSignOut = document.getElementById('teacherSignOut');
+const teacherUserInfo = document.getElementById('teacherUserInfo');
+
+teacherSignIn.addEventListener('click', async () => {
+  try {
+    teacherSignIn.textContent = 'Signing in...';
+    teacherSignIn.disabled = true;
+    await signInWithEmailAndPassword(auth, (teacherEmail.value||'').trim(), (teacherPassword.value||'').trim());
+  } catch (e) {
+    alert(e.message);
+  } finally {
+    teacherSignIn.textContent = 'Sign In';
+    teacherSignIn.disabled = false;
+  }
+});
+
+teacherSignOut.addEventListener('click', async () => {
+  await signOut(auth);
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    authSection.style.display = 'none';
+    editorSection.style.display = '';
+    teacherSignOut.style.display = '';
+    teacherUserInfo.textContent = `Signed in as ${user.email}`;
+    // Upsert user profile
+    upsertUserProfile(user.uid, { role: 'teacher', email: user.email });
+  } else {
+    authSection.style.display = '';
+    editorSection.style.display = 'none';
+    teacherSignOut.style.display = 'none';
+    teacherUserInfo.textContent = '';
+  }
+});
+
+async function upsertUserProfile(uid, data){
+  const ref = doc(collection(db, 'users'), uid);
+  const snap = await getDoc(ref);
+  if (!snap.exists()){
+    await setDoc(ref, { ...data, createdAt: serverTimestamp() });
+  }
+}
 
 const course = document.getElementById('course');
 const points = document.getElementById('points');

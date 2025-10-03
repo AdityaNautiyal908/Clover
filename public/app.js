@@ -2,6 +2,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -24,9 +25,10 @@ try {
   // Ignore analytics errors in non-HTTPS or unsupported environments
 }
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 // Export for use in other modules
-export { app, analytics, db, firebaseConfig };
+export { app, analytics, db, auth, firebaseConfig };
 
 // Deterministic PRNG (Mulberry32) and shuffle for per-student order
 export function createSeededRng(seed){

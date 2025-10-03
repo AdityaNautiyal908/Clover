@@ -19,7 +19,23 @@
   </header>
 
   <main class="container">
-    <section class="teacher-section">
+    <section class="teacher-auth teacher-section" id="authSection">
+      <h2>Teacher Sign In</h2>
+      <div class="form-group">
+        <label for="teacherEmail">Email</label>
+        <input type="email" id="teacherEmail" placeholder="teacher@example.com" />
+      </div>
+      <div class="form-group">
+        <label for="teacherPassword">Password</label>
+        <input type="password" id="teacherPassword" placeholder="Your password" />
+      </div>
+      <div>
+        <button id="teacherSignIn" class="btn primary">Sign In</button>
+        <button id="teacherSignOut" class="btn" style="display:none">Sign Out</button>
+      </div>
+      <p id="teacherUserInfo" style="margin-top:0.75rem;color:#6b7280"></p>
+    </section>
+    <section class="teacher-section" id="editorSection" style="display:none">
       <h2>Add Questions</h2>
       
       <div class="form-group">

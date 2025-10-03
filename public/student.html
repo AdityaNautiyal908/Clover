@@ -19,7 +19,23 @@
   </header>
 
   <main class="container">
-    <section class="student-section">
+    <section class="student-auth student-section" id="authSection">
+      <h2>Student Sign In</h2>
+      <div class="form-group">
+        <label for="studentEmail">Email</label>
+        <input type="email" id="studentEmail" placeholder="student@example.com" />
+      </div>
+      <div class="form-group">
+        <label for="studentPassword">Password</label>
+        <input type="password" id="studentPassword" placeholder="Your password" />
+      </div>
+      <div>
+        <button id="studentSignIn" class="btn primary">Sign In</button>
+        <button id="studentSignOut" class="btn" style="display:none">Sign Out</button>
+      </div>
+      <p id="studentUserInfo" style="margin-top:0.75rem;color:#6b7280"></p>
+    </section>
+    <section class="student-section" id="querySection" style="display:none">
       <h2>Get Your Questions</h2>
       <p>Enter your student ID and course to get your unique set of questions.</p>
       

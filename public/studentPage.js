@@ -1,5 +1,6 @@
-import { db, deterministicShuffle } from './app.js';
-import { collection, getDocs, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+import { db, auth, deterministicShuffle } from './app.js';
+import { collection, getDocs, query, where, orderBy, setDoc, getDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 const studentIdEl = document.getElementById('studentId');
 const courseIdEl = document.getElementById('courseId');
@@ -7,8 +8,55 @@ const btn = document.getElementById('loadBtn');
 const list = document.getElementById('questions');
 const count = document.getElementById('count');
 const questionsSection = document.getElementById('questionsSection');
+const authSection = document.getElementById('authSection');
+const querySection = document.getElementById('querySection');
+const studentEmail = document.getElementById('studentEmail');
+const studentPassword = document.getElementById('studentPassword');
+const studentSignIn = document.getElementById('studentSignIn');
+const studentSignOut = document.getElementById('studentSignOut');
+const studentUserInfo = document.getElementById('studentUserInfo');
 
 btn.addEventListener('click', load);
+
+studentSignIn.addEventListener('click', async () => {
+  try {
+    studentSignIn.textContent = 'Signing in...';
+    studentSignIn.disabled = true;
+    await signInWithEmailAndPassword(auth, (studentEmail.value||'').trim(), (studentPassword.value||'').trim());
+  } catch (e) {
+    alert(e.message);
+  } finally {
+    studentSignIn.textContent = 'Sign In';
+    studentSignIn.disabled = false;
+  }
+});
+
+studentSignOut.addEventListener('click', async () => {
+  await signOut(auth);
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    authSection.style.display = 'none';
+    querySection.style.display = '';
+    studentSignOut.style.display = '';
+    studentUserInfo.textContent = `Signed in as ${user.email}`;
+    upsertUserProfile(user.uid, { role: 'student', email: user.email });
+  } else {
+    authSection.style.display = '';
+    querySection.style.display = 'none';
+    studentSignOut.style.display = 'none';
+    studentUserInfo.textContent = '';
+  }
+});
+
+async function upsertUserProfile(uid, data){
+  const ref = doc(collection(db, 'users'), uid);
+  const snap = await getDoc(ref);
+  if (!snap.exists()){
+    await setDoc(ref, { ...data, createdAt: serverTimestamp() });
+  }
+}
 
 async function load() {
   const studentId = (studentIdEl.value || '').trim();
