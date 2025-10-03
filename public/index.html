@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clover - Unique Assignments</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <h1>Clover</h1>
+    <nav class="nav">
+      <a href="./teacher.html">Teacher</a>
+      <a href="./student.html">Student</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Unique assignments for every student</h2>
+      <p>Clover helps teachers distribute question sets so each student gets a unique, randomized order. Built with Firebase Firestore.</p>
+      <div class="cta">
+        <a class="btn primary" href="./teacher.html">I am a Teacher</a>
+        <a class="btn" href="./student.html">I am a Student</a>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>🎯 Unique Questions</h3>
+          <p>Each student gets questions in a different order, preventing cheating and ensuring fair assessment.</p>
+        </div>
+        <div class="feature">
+          <h3>📚 Course Management</h3>
+          <p>Organize questions by course and easily filter content for different subjects.</p>
+        </div>
+        <div class="feature">
+          <h3>⚡ Real-time Updates</h3>
+          <p>Questions update instantly across all devices using Firebase's real-time database.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© <span id="year"></span> Clover</footer>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
