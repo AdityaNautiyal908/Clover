@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Clover</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="./index.html">Clover</a></h1>
+      <nav class="nav">
+        <a href="./index.html">Home</a>
+        <a href="./login.html">Login</a>
+        <a href="./register.html">Register</a>
+        <button id="signOutBtn" class="btn btn-secondary" style="display:none;">Sign Out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <!-- Authentication Section -->
+      <section id="authSection" class="student-section" style="display: none;">
+        <h2>Student Sign In</h2>
+        <p style="color:#a0a0a0;margin-bottom:1.5rem">Sign in to access your personalized assignments</p>
+        <div class="auth-links">
+          <a href="./login.html" class="btn btn-primary">Sign In</a>
+          <a href="./register.html" class="btn btn-secondary">Register</a>
+        </div>
+      </section>
+
+      <!-- Student Dashboard -->
+      <section id="studentDashboard" class="student-section" style="display: none;">
+        <div class="dashboard-header">
+          <h2>Student Portal</h2>
+          <p>Welcome back, <span id="studentName">Student</span>!</p>
+        </div>
+
+        <!-- Student Stats -->
+        <div class="student-stats">
+          <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-content">
+              <h3 id="totalQuestions">0</h3>
+              <p>Available Questions</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+              <h3 id="completedQuestions">0</h3>
+              <p>Completed</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-content">
+              <h3 id="pendingQuestions">0</h3>
+              <p>Pending</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question Filters -->
+        <div class="question-filters">
+          <h3>Filter Questions</h3>
+          <div class="filter-controls">
+            <select id="filterSubject" class="filter-select">
+              <option value="">All Subjects</option>
+            </select>
+            <select id="filterDifficulty" class="filter-select">
+              <option value="">All Difficulties</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+            <select id="filterType" class="filter-select">
+              <option value="">All Types</option>
+              <option value="multiple-choice">Multiple Choice</option>
+              <option value="true-false">True/False</option>
+              <option value="short-answer">Short Answer</option>
+              <option value="essay">Essay</option>
+            </select>
+            <select id="filterStatus" class="filter-select">
+              <option value="">All Questions</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Questions List -->
+        <div class="questions-section">
+          <div class="section-header">
+            <h3>Your Questions</h3>
+            <div class="view-toggle">
+              <button id="listViewBtn" class="view-btn active">List View</button>
+              <button id="cardViewBtn" class="view-btn">Card View</button>
+            </div>
+          </div>
+
+          <div id="questionsList" class="questions-list">
+            <!-- Questions will be loaded here -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Question Modal -->
+  <div id="questionModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalQuestionTitle">Question</h3>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="question-meta">
+          <span id="modalQuestionType" class="question-type">Type</span>
+          <span id="modalQuestionDifficulty" class="question-difficulty">Difficulty</span>
+          <span id="modalQuestionSubject" class="question-subject">Subject</span>
+        </div>
+        
+        <div class="question-content">
+          <p id="modalQuestionText" class="question-text"></p>
+        </div>
+
+        <form id="answerForm" class="answer-form">
+          <div id="answerSection" class="answer-section">
+            <!-- Answer options will be dynamically generated here -->
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="skipQuestionBtn" class="btn btn-secondary">Skip</button>
+            <button type="submit" id="submitAnswerBtn" class="btn btn-primary">Submit Answer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./studentPage.js"></script>
+</body>
+</html>

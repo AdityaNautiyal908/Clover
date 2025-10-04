@@ -7,6 +7,9 @@ const registerForm = document.getElementById('registerForm');
 const registerBtn = document.getElementById('registerBtn');
 const errorMessage = document.getElementById('errorMessage');
 const successMessage = document.getElementById('successMessage');
+const roleSelect = document.getElementById('role');
+const studentIdGroup = document.getElementById('studentIdGroup');
+const studentIdInput = document.getElementById('studentId');
 
 // Form validation
 function validateForm(formData) {
@@ -34,6 +37,11 @@ function validateForm(formData) {
       errors.push(`${field.charAt(0).toUpperCase() + field.slice(1)} is required`);
     }
   });
+
+  // Validate student ID if role is student
+  if (formData.role === 'student' && !formData.studentId?.trim()) {
+    errors.push('Student ID is required for students');
+  }
 
   return errors;
 }
@@ -69,6 +77,7 @@ async function storeUserData(user, formData) {
       fullName: `${formData.firstName.trim()} ${formData.lastName.trim()}`,
       role: formData.role,
       institution: formData.institution?.trim() || '',
+      studentId: formData.studentId?.trim() || '',
       createdAt: new Date().toISOString(),
       lastLoginAt: new Date().toISOString(),
       isActive: true
@@ -117,7 +126,8 @@ registerForm.addEventListener('submit', async (e) => {
     password: document.getElementById('password').value,
     confirmPassword: document.getElementById('confirmPassword').value,
     role: document.getElementById('role').value,
-    institution: document.getElementById('institution').value
+    institution: document.getElementById('institution').value,
+    studentId: document.getElementById('studentId').value
   };
 
   // Validate form
@@ -206,6 +216,19 @@ registerForm.addEventListener('submit', async (e) => {
     // Reset button state
     registerBtn.textContent = 'Create Account';
     registerBtn.disabled = false;
+  }
+});
+
+// Handle role change
+roleSelect.addEventListener('change', (e) => {
+  const role = e.target.value;
+  if (role === 'student') {
+    studentIdGroup.style.display = 'block';
+    studentIdInput.required = true;
+  } else {
+    studentIdGroup.style.display = 'none';
+    studentIdInput.required = false;
+    studentIdInput.value = '';
   }
 });
 

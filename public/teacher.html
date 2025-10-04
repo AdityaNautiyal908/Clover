@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard - Clover</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="./index.html">Clover</a></h1>
+      <nav class="nav">
+        <a href="./index.html">Home</a>
+        <a href="./login.html">Login</a>
+        <a href="./register.html">Register</a>
+        <button id="signOutBtn" class="btn btn-secondary" style="display:none;">Sign Out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <!-- Authentication Section -->
+      <section id="authSection" class="teacher-section" style="display: none;">
+        <h2>Teacher Sign In</h2>
+        <p style="color:#a0a0a0;margin-bottom:1.5rem">Access the teacher dashboard to manage questions</p>
+        <div class="auth-links">
+          <a href="./login.html" class="btn btn-primary">Sign In</a>
+          <a href="./register.html" class="btn btn-secondary">Register</a>
+        </div>
+      </section>
+
+      <!-- Teacher Dashboard -->
+      <section id="teacherDashboard" class="teacher-section" style="display: none;">
+        <div class="dashboard-header">
+          <h2>Teacher Dashboard</h2>
+          <p>Welcome back, <span id="teacherName">Teacher</span>!</p>
+        </div>
+
+        <!-- Add Question Form -->
+        <div class="question-form-section">
+          <div class="form-tabs">
+            <button type="button" id="writtenTab" class="tab-btn active">Written Question</button>
+            <button type="button" id="pdfTab" class="tab-btn">Upload PDF</button>
+          </div>
+
+          <!-- Written Question Form -->
+          <div id="writtenForm" class="question-form">
+            <h3>Add New Question</h3>
+            <form id="questionForm">
+            <div class="form-group">
+              <label for="questionText">Question Text</label>
+              <textarea id="questionText" name="questionText" placeholder="Enter your question here..." required></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="questionType">Question Type</label>
+                <select id="questionType" name="questionType" required>
+                  <option value="">Select question type</option>
+                  <option value="multiple-choice">Multiple Choice</option>
+                  <option value="true-false">True/False</option>
+                  <option value="short-answer">Short Answer</option>
+                  <option value="essay">Essay</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="difficulty">Difficulty Level</label>
+                <select id="difficulty" name="difficulty" required>
+                  <option value="">Select difficulty</option>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" placeholder="e.g., Mathematics, Science, English..." required>
+            </div>
+
+            <div class="form-group">
+              <label for="topic">Topic</label>
+              <input type="text" id="topic" name="topic" placeholder="e.g., Algebra, Photosynthesis, Grammar..." required>
+            </div>
+
+            <!-- Multiple Choice Options -->
+            <div id="multipleChoiceOptions" class="multiple-choice-options" style="display: none;">
+              <label>Answer Options</label>
+              <div class="options-container">
+                <div class="option-group">
+                  <input type="radio" id="optionA" name="correctAnswer" value="A">
+                  <input type="text" id="optionAText" placeholder="Option A" class="option-input">
+                </div>
+                <div class="option-group">
+                  <input type="radio" id="optionB" name="correctAnswer" value="B">
+                  <input type="text" id="optionBText" placeholder="Option B" class="option-input">
+                </div>
+                <div class="option-group">
+                  <input type="radio" id="optionC" name="correctAnswer" value="C">
+                  <input type="text" id="optionCText" placeholder="Option C" class="option-input">
+                </div>
+                <div class="option-group">
+                  <input type="radio" id="optionD" name="correctAnswer" value="D">
+                  <input type="text" id="optionDText" placeholder="Option D" class="option-input">
+                </div>
+              </div>
+            </div>
+
+            <!-- True/False Options -->
+            <div id="trueFalseOptions" class="true-false-options" style="display: none;">
+              <label>Correct Answer</label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="correctAnswer" value="true">
+                  <span>True</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="correctAnswer" value="false">
+                  <span>False</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Short Answer/Essay -->
+            <div id="textAnswerOptions" class="text-answer-options" style="display: none;">
+              <div class="form-group">
+                <label for="correctAnswerText">Correct Answer (Optional)</label>
+                <textarea id="correctAnswerText" name="correctAnswerText" placeholder="Enter the expected answer or key points..."></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="explanation">Explanation (Optional)</label>
+              <textarea id="explanation" name="explanation" placeholder="Provide explanation or additional context..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="addQuestionBtn" class="btn btn-primary">Add Question</button>
+              <button type="button" id="clearFormBtn" class="btn btn-secondary">Clear Form</button>
+            </div>
+            </form>
+          </div>
+
+          <!-- PDF Upload Form -->
+          <div id="pdfForm" class="question-form" style="display: none;">
+            <h3>Upload Questions from PDF</h3>
+            <form id="pdfUploadForm">
+              <div class="form-group">
+                <label for="pdfFile">Select PDF File</label>
+                <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" required>
+                <p class="file-help">Upload a PDF file containing questions. The system will extract text and help you create questions.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="pdfSubject">Subject</label>
+                <input type="text" id="pdfSubject" name="pdfSubject" placeholder="e.g., Mathematics, Science, English..." required>
+              </div>
+
+              <div class="form-group">
+                <label for="pdfTopic">Topic</label>
+                <input type="text" id="pdfTopic" name="pdfTopic" placeholder="e.g., Algebra, Photosynthesis, Grammar..." required>
+              </div>
+
+              <div class="form-group">
+                <label for="pdfDifficulty">Default Difficulty Level</label>
+                <select id="pdfDifficulty" name="pdfDifficulty" required>
+                  <option value="">Select difficulty</option>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" id="uploadPdfBtn" class="btn btn-primary">Upload & Process PDF</button>
+                <button type="button" id="clearPdfBtn" class="btn btn-secondary">Clear Form</button>
+              </div>
+            </form>
+
+            <!-- PDF Processing Results -->
+            <div id="pdfResults" class="pdf-results" style="display: none;">
+              <h4>Extracted Questions</h4>
+              <div id="extractedQuestions" class="extracted-questions">
+                <!-- Extracted questions will be displayed here -->
+              </div>
+              <div class="form-actions">
+                <button type="button" id="saveAllQuestionsBtn" class="btn btn-primary">Save All Questions</button>
+                <button type="button" id="editQuestionsBtn" class="btn btn-secondary">Edit Questions</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Questions List -->
+        <div class="questions-section">
+          <div class="section-header">
+            <h3>Your Questions</h3>
+            <div class="questions-stats">
+              <span class="stat-item">Total: <span id="totalQuestions">0</span></span>
+              <span class="stat-item">Easy: <span id="easyQuestions">0</span></span>
+              <span class="stat-item">Medium: <span id="mediumQuestions">0</span></span>
+              <span class="stat-item">Hard: <span id="hardQuestions">0</span></span>
+            </div>
+          </div>
+
+          <div class="questions-filters">
+            <select id="filterSubject" class="filter-select">
+              <option value="">All Subjects</option>
+            </select>
+            <select id="filterDifficulty" class="filter-select">
+              <option value="">All Difficulties</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+            <select id="filterType" class="filter-select">
+              <option value="">All Types</option>
+              <option value="multiple-choice">Multiple Choice</option>
+              <option value="true-false">True/False</option>
+              <option value="short-answer">Short Answer</option>
+              <option value="essay">Essay</option>
+            </select>
+          </div>
+
+          <div id="questionsList" class="questions-list">
+            <!-- Questions will be loaded here -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="./teacherPage.js"></script>
+</body>
+</html>
