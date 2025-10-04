@@ -295,10 +295,13 @@ document.getElementById("googleSignIn")?.addEventListener("click", async () => {
       studentId: ""
     };
 
-    // Firestore storage should happen AFTER popup
-    storeUserData(user, formData).catch(err => console.warn("Firestore write failed:", err));
+    // Store in Firestore and wait for it to complete
+    await storeUserData(user, formData);
 
-    alert("Google login successful: " + user.email);
+    // Optional: console log
+    console.log("✅ Google user stored in Firestore:", user.email);
+
+    // Redirect immediately after Firestore write
     window.location.href = "./student.html";
 
   } catch (error) {
@@ -306,7 +309,6 @@ document.getElementById("googleSignIn")?.addEventListener("click", async () => {
     alert("Google Login Failed: " + error.message);
   }
 });
-
 
 // ------------------- GITHUB SIGN-IN -------------------
 document.getElementById("githubSignIn")?.addEventListener("click", async () => {
