@@ -335,7 +335,6 @@ document.getElementById("githubSignIn")?.addEventListener("click", async () => {
       console.error("❌ Firestore write failed (GitHub):", firestoreError);
     }
 
-    alert("✅ GitHub login successful: " + (user.email || "No email returned"));
     window.location.href = "./student.html";
 
   } catch (error) {
