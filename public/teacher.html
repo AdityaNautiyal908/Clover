@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="./styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="site-header">
@@ -15,28 +15,22 @@
     <nav class="nav">
       <a href="./teacher.html" class="active">Teacher</a>
       <a href="./student.html">Student</a>
+      <button id="signOutBtn" class="btn" style="display:none;margin-left:auto">Sign Out</button>
     </nav>
   </header>
 
   <main class="container">
-    <section class="teacher-auth teacher-section" id="authSection">
-      <h2>Teacher Sign In</h2>
-      <div class="form-group">
-        <label for="teacherEmail">Email</label>
-        <input type="email" id="teacherEmail" placeholder="teacher@example.com" />
+    <section class="teacher-section" id="authSection">
+      <h2>Teacher Dashboard</h2>
+      <p style="color:#a0a0a0;margin-bottom:1.5rem">Please sign in to access the teacher dashboard</p>
+      <div class="cta" style="justify-content:center">
+        <a href="./login.html" class="btn primary">Sign In</a>
+        <a href="./register.html" class="btn">Register</a>
       </div>
-      <div class="form-group">
-        <label for="teacherPassword">Password</label>
-        <input type="password" id="teacherPassword" placeholder="Your password" />
-      </div>
-      <div>
-        <button id="teacherSignIn" class="btn primary">Sign In</button>
-        <button id="teacherSignOut" class="btn" style="display:none">Sign Out</button>
-      </div>
-      <p id="teacherUserInfo" style="margin-top:0.75rem;color:#6b7280"></p>
     </section>
     <section class="teacher-section" id="editorSection" style="display:none">
       <h2>Add Questions</h2>
+      <p style="color:#a0a0a0;margin-bottom:1.5rem">Create new questions for your courses</p>
       
       <div class="form-group">
         <label for="course">Course:</label>
@@ -58,6 +52,7 @@
 
     <section class="questions-section">
       <h2>Questions</h2>
+      <p style="color:#a0a0a0;margin-bottom:1.5rem">Manage and organize your question bank</p>
       
       <div class="filter-group">
         <label for="filterCourse">Filter by Course:</label>

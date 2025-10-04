@@ -1,6 +1,6 @@
 import { db, auth, deterministicShuffle } from './app.js';
 import { collection, getDocs, query, where, orderBy, setDoc, getDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 const studentIdEl = document.getElementById('studentId');
 const courseIdEl = document.getElementById('courseId');
@@ -10,45 +10,46 @@ const count = document.getElementById('count');
 const questionsSection = document.getElementById('questionsSection');
 const authSection = document.getElementById('authSection');
 const querySection = document.getElementById('querySection');
-const studentEmail = document.getElementById('studentEmail');
-const studentPassword = document.getElementById('studentPassword');
-const studentSignIn = document.getElementById('studentSignIn');
-const studentSignOut = document.getElementById('studentSignOut');
-const studentUserInfo = document.getElementById('studentUserInfo');
+const signOutBtn = document.getElementById('signOutBtn');
 
-btn.addEventListener('click', load);
-
-studentSignIn.addEventListener('click', async () => {
-  try {
-    studentSignIn.textContent = 'Signing in...';
-    studentSignIn.disabled = true;
-    await signInWithEmailAndPassword(auth, (studentEmail.value||'').trim(), (studentPassword.value||'').trim());
-  } catch (e) {
-    alert(e.message);
-  } finally {
-    studentSignIn.textContent = 'Sign In';
-    studentSignIn.disabled = false;
-  }
-});
-
-studentSignOut.addEventListener('click', async () => {
+signOutBtn.addEventListener('click', async () => {
   await signOut(auth);
 });
 
+btn.addEventListener('click', load);
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    authSection.style.display = 'none';
-    querySection.style.display = '';
-    studentSignOut.style.display = '';
-    studentUserInfo.textContent = `Signed in as ${user.email}`;
-    upsertUserProfile(user.uid, { role: 'student', email: user.email });
+    // Check if user is a student
+    checkUserRole(user);
   } else {
     authSection.style.display = '';
     querySection.style.display = 'none';
-    studentSignOut.style.display = 'none';
-    studentUserInfo.textContent = '';
+    signOutBtn.style.display = 'none';
   }
 });
+
+async function checkUserRole(user) {
+  try {
+    const profile = await getDoc(doc(db, 'users', user.uid));
+    const role = profile.exists() ? (profile.data().role || 'student') : 'student';
+    
+    if (role === 'student') {
+      authSection.style.display = 'none';
+      querySection.style.display = '';
+      signOutBtn.style.display = '';
+      // Upsert user profile
+      upsertUserProfile(user.uid, { role: 'student', email: user.email });
+    } else {
+      // Redirect teachers to teacher page
+      location.href = './teacher.html';
+    }
+  } catch (error) {
+    console.error('Error checking user role:', error);
+    authSection.style.display = '';
+    querySection.style.display = 'none';
+  }
+}
 
 async function upsertUserProfile(uid, data){
   const ref = doc(collection(db, 'users'), uid);

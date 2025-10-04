@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="./styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="site-header">
@@ -15,29 +15,22 @@
     <nav class="nav">
       <a href="./teacher.html">Teacher</a>
       <a href="./student.html" class="active">Student</a>
+      <button id="signOutBtn" class="btn" style="display:none;margin-left:auto">Sign Out</button>
     </nav>
   </header>
 
   <main class="container">
-    <section class="student-auth student-section" id="authSection">
-      <h2>Student Sign In</h2>
-      <div class="form-group">
-        <label for="studentEmail">Email</label>
-        <input type="email" id="studentEmail" placeholder="student@example.com" />
+    <section class="student-section" id="authSection">
+      <h2>Student Portal</h2>
+      <p style="color:#a0a0a0;margin-bottom:1.5rem">Please sign in to access your personalized assignments</p>
+      <div class="cta" style="justify-content:center">
+        <a href="./login.html" class="btn primary">Sign In</a>
+        <a href="./register.html" class="btn">Register</a>
       </div>
-      <div class="form-group">
-        <label for="studentPassword">Password</label>
-        <input type="password" id="studentPassword" placeholder="Your password" />
-      </div>
-      <div>
-        <button id="studentSignIn" class="btn primary">Sign In</button>
-        <button id="studentSignOut" class="btn" style="display:none">Sign Out</button>
-      </div>
-      <p id="studentUserInfo" style="margin-top:0.75rem;color:#6b7280"></p>
     </section>
     <section class="student-section" id="querySection" style="display:none">
       <h2>Get Your Questions</h2>
-      <p>Enter your student ID and course to get your unique set of questions.</p>
+      <p style="color:#a0a0a0;margin-bottom:1.5rem">Enter your student ID and course to get your unique set of questions.</p>
       
       <div class="form-group">
         <label for="studentId">Student ID:</label>
@@ -55,6 +48,7 @@
 
     <section class="questions-section" id="questionsSection" style="display: none;">
       <h2>Your Questions</h2>
+      <p style="color:#a0a0a0;margin-bottom:1.5rem">Your personalized assignment questions</p>
       <div class="questions-info">
         <span class="count-badge">Total: <span id="count">0</span> questions</span>
       </div>

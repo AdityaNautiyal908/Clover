@@ -7,47 +7,87 @@
   <link rel="stylesheet" href="./styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="site-header">
-    <h1>Clover</h1>
-    <nav class="nav">
-      <a href="./teacher.html">Teacher</a>
-      <a href="./student.html">Student</a>
-    </nav>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <h2>Unique assignments for every student</h2>
-      <p>Clover helps teachers distribute question sets so each student gets a unique, randomized order. Built with Firebase Firestore.</p>
-      <div class="cta">
-        <a class="btn primary" href="./teacher.html">I am a Teacher</a>
-        <a class="btn" href="./student.html">I am a Student</a>
+  <main class="landing-container">
+    <!-- Left Content Block - Main Section -->
+    <div class="main-content" id="splash">
+      <div class="splash-logo" aria-label="Clover loading animation">
+        <div class="splash-blob"></div>
+        <div class="splash-ring"></div>
+        <div class="splash-tick"></div>
       </div>
-    </section>
-
-    <section class="features">
-      <div class="feature-grid">
-        <div class="feature">
-          <h3>🎯 Unique Questions</h3>
-          <p>Each student gets questions in a different order, preventing cheating and ensuring fair assessment.</p>
+      <h1 class="main-title">Clover</h1>
+      <p class="main-subtitle">Personalized assignments with unique question sets</p>
+      
+      <p class="main-description">
+        Get personalized assignments tailored to your student ID. Each student receives the same questions but in a unique order, ensuring fair assessment while preventing cheating.
+      </p>
+      
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-number green">100+</span>
+          <span class="stat-label">Questions</span>
         </div>
-        <div class="feature">
-          <h3>📚 Course Management</h3>
-          <p>Organize questions by course and easily filter content for different subjects.</p>
+        <div class="stat-item">
+          <span class="stat-number purple">Multiple</span>
+          <span class="stat-label">Courses</span>
         </div>
-        <div class="feature">
-          <h3>⚡ Real-time Updates</h3>
-          <p>Questions update instantly across all devices using Firebase's real-time database.</p>
+        <div class="stat-item">
+          <span class="stat-number blue">24/7</span>
+          <span class="stat-label">Access</span>
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- Right Content Block - Action Section -->
+    <div class="auth-content" id="entry" style="display:none">
+      <h2 class="auth-title">Get Started</h2>
+      <p class="auth-subtitle">Choose your path to begin learning</p>
+      
+      <div class="auth-buttons">
+        <a href="./login.html" class="auth-btn primary">
+          <span class="btn-icon">🔑</span>
+          Sign In
+        </a>
+        <a href="./register.html" class="auth-btn secondary">
+          <span class="btn-icon">📝</span>
+          Create Account
+        </a>
+        <a href="./teacher.html" class="auth-btn secondary">
+          <span class="btn-icon">👨‍🏫</span>
+          Teacher Portal
+        </a>
+        <a href="./student.html" class="auth-btn secondary">
+          <span class="btn-icon">👨‍🎓</span>
+          Student Portal
+        </a>
+      </div>
+      
+      <div class="unlock-section">
+        <h3>What you get:</h3>
+        <ul class="unlock-list">
+          <li><span class="checkmark">✓</span> Personalized assignments</li>
+          <li><span class="checkmark">✓</span> Progress tracking</li>
+          <li><span class="checkmark">✓</span> Course management</li>
+          <li><span class="checkmark">✓</span> Unique question sets</li>
+        </ul>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">© <span id="year"></span> Clover</footer>
 
   <script type="module" src="./app.js"></script>
+  <script>
+    // Simple splash: show animation for 2.2s then reveal entry options
+    setTimeout(()=>{
+      const splash = document.getElementById('splash');
+      const entry = document.getElementById('entry');
+      if(splash) splash.style.display = 'none';
+      if(entry) entry.style.display = '';
+    }, 2200);
+  </script>
 </body>
 </html>

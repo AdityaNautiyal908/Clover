@@ -1,48 +1,48 @@
 import { db, auth, deterministicShuffle } from './app.js';
 import { collection, addDoc, serverTimestamp, query, where, onSnapshot, orderBy, deleteDoc, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
 // Auth UI elements
 const authSection = document.getElementById('authSection');
 const editorSection = document.getElementById('editorSection');
-const teacherEmail = document.getElementById('teacherEmail');
-const teacherPassword = document.getElementById('teacherPassword');
-const teacherSignIn = document.getElementById('teacherSignIn');
-const teacherSignOut = document.getElementById('teacherSignOut');
-const teacherUserInfo = document.getElementById('teacherUserInfo');
+const signOutBtn = document.getElementById('signOutBtn');
 
-teacherSignIn.addEventListener('click', async () => {
-  try {
-    teacherSignIn.textContent = 'Signing in...';
-    teacherSignIn.disabled = true;
-    await signInWithEmailAndPassword(auth, (teacherEmail.value||'').trim(), (teacherPassword.value||'').trim());
-  } catch (e) {
-    alert(e.message);
-  } finally {
-    teacherSignIn.textContent = 'Sign In';
-    teacherSignIn.disabled = false;
-  }
-});
-
-teacherSignOut.addEventListener('click', async () => {
+signOutBtn.addEventListener('click', async () => {
   await signOut(auth);
 });
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    authSection.style.display = 'none';
-    editorSection.style.display = '';
-    teacherSignOut.style.display = '';
-    teacherUserInfo.textContent = `Signed in as ${user.email}`;
-    // Upsert user profile
-    upsertUserProfile(user.uid, { role: 'teacher', email: user.email });
+    // Check if user is a teacher
+    checkUserRole(user);
   } else {
     authSection.style.display = '';
     editorSection.style.display = 'none';
-    teacherSignOut.style.display = 'none';
-    teacherUserInfo.textContent = '';
+    signOutBtn.style.display = 'none';
   }
 });
+
+async function checkUserRole(user) {
+  try {
+    const profile = await getDoc(doc(db, 'users', user.uid));
+    const role = profile.exists() ? (profile.data().role || 'student') : 'student';
+    
+    if (role === 'teacher') {
+      authSection.style.display = 'none';
+      editorSection.style.display = '';
+      signOutBtn.style.display = '';
+      // Upsert user profile
+      upsertUserProfile(user.uid, { role: 'teacher', email: user.email });
+    } else {
+      // Redirect students to student page
+      location.href = './student.html';
+    }
+  } catch (error) {
+    console.error('Error checking user role:', error);
+    authSection.style.display = '';
+    editorSection.style.display = 'none';
+  }
+}
 
 async function upsertUserProfile(uid, data){
   const ref = doc(collection(db, 'users'), uid);
