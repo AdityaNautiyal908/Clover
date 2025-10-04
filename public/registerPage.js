@@ -1,5 +1,5 @@
 import { auth, db } from './firebase-config.js';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 import { doc, setDoc, addDoc, collection, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
 
 // DOM Elements
@@ -10,6 +10,8 @@ const successMessage = document.getElementById('successMessage');
 const roleSelect = document.getElementById('role');
 const studentIdGroup = document.getElementById('studentIdGroup');
 const studentIdInput = document.getElementById('studentId');
+const googleBtn = document.getElementById('google-signin-button');
+const githubBtn = document.getElementById('github-signin-button');
 
 // Form validation
 function validateForm(formData) {
@@ -110,6 +112,110 @@ async function storeUserData(user, formData) {
     // Don't throw the error - let registration succeed even if Firestore write fails
     console.warn('Registration will continue without Firestore data storage');
     return false;
+  }
+}
+
+// Build minimal form-like data from a provider user
+function buildFormDataFromProvider(user) {
+  const displayName = (user.displayName || '').trim();
+  let firstName = '';
+  let lastName = '';
+  if (displayName) {
+    const parts = displayName.split(/\s+/);
+    firstName = parts[0] || '';
+    lastName = parts.slice(1).join(' ');
+  }
+  return {
+    firstName,
+    lastName,
+    email: user.email || '',
+    // Placeholder values not used for provider sign-in validation
+    password: 'provider',
+    confirmPassword: 'provider',
+    role: document.getElementById('role').value,
+    institution: document.getElementById('institution').value || '',
+    studentId: document.getElementById('studentId').value || ''
+  };
+}
+
+function validateProviderFields(role, studentId) {
+  const errors = [];
+  if (!role) errors.push('Please select your role');
+  if (role === 'student' && !studentId.trim()) {
+    errors.push('Student ID is required for students');
+  }
+  return errors;
+}
+
+async function handleProviderSignIn(providerType) {
+  hideMessages();
+
+  const role = document.getElementById('role').value;
+  const studentId = document.getElementById('studentId').value || '';
+  const providerErrors = validateProviderFields(role, studentId);
+  if (providerErrors.length > 0) {
+    showError(providerErrors.join('. '));
+    return;
+  }
+
+  // Disable UI while processing
+  registerBtn.disabled = true;
+  if (googleBtn) googleBtn.disabled = true;
+  if (githubBtn) githubBtn.disabled = true;
+
+  try {
+    if (auth.currentUser) {
+      await signOut(auth);
+      await new Promise(r => setTimeout(r, 300));
+    }
+
+    const provider = providerType === 'google' ? new GoogleAuthProvider() : new GithubAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // Prepare data and store/merge in Firestore
+    const formDataLike = buildFormDataFromProvider(user);
+    await new Promise(resolve => setTimeout(resolve, 400));
+    await storeUserData(user, formDataLike);
+
+    showSuccess('Signed in successfully! Redirecting...');
+
+    // Redirect using chosen role
+    setTimeout(() => {
+      if (formDataLike.role === 'teacher') {
+        window.location.href = './teacher.html';
+      } else {
+        window.location.href = './student.html';
+      }
+    }, 1500);
+  } catch (error) {
+    console.error('Provider sign-in error:', error);
+    let message = 'Could not complete sign-in. Please try again.';
+    switch (error.code) {
+      case 'auth/popup-closed-by-user':
+        message = 'Sign-in popup was closed before completing.';
+        break;
+      case 'auth/cancelled-popup-request':
+        message = 'Another sign-in attempt was in progress. Please try again.';
+        break;
+      case 'auth/account-exists-with-different-credential':
+        message = 'Account exists with a different sign-in method. Try another provider or email login.';
+        break;
+      case 'auth/operation-not-allowed':
+        message = 'This sign-in method is not enabled in Firebase Auth.';
+        break;
+      case 'auth/popup-blocked':
+        message = 'Popup was blocked by the browser. Allow popups and try again.';
+        break;
+      case 'auth/network-request-failed':
+        message = 'Network error. Check your internet connection and try again.';
+        break;
+    }
+    showError(message);
+  } finally {
+    registerBtn.disabled = false;
+    if (googleBtn) googleBtn.disabled = false;
+    if (githubBtn) githubBtn.disabled = false;
   }
 }
 
@@ -276,3 +382,13 @@ document.getElementById('password').addEventListener('input', (e) => {
     }
   }
 });
+
+// Wire up provider buttons
+if (googleBtn) {
+  googleBtn.type = 'button';
+  googleBtn.addEventListener('click', () => handleProviderSignIn('google'));
+}
+if (githubBtn) {
+  githubBtn.type = 'button';
+  githubBtn.addEventListener('click', () => handleProviderSignIn('github'));
+}
