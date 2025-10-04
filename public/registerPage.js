@@ -1,5 +1,5 @@
 import { auth, db } from './firebase-config.js';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, GithubAuthProvider, signInWithPopup  } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 import { doc, setDoc, addDoc, collection, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
 
 // DOM Elements
@@ -274,5 +274,73 @@ document.getElementById('password').addEventListener('input', (e) => {
     } else {
       document.getElementById('confirmPassword').style.borderColor = '#404040';
     }
+  }
+});
+
+// ------------------- GOOGLE SIGN-IN -------------------
+document.getElementById("googleSignIn")?.addEventListener("click", async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+    // Trigger popup immediately
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // Prepare user data
+    const formData = {
+      firstName: user.displayName?.split(" ")[0] || "",
+      lastName: user.displayName?.split(" ").slice(1).join(" ") || "",
+      email: user.email,
+      role: "student",
+      institution: "",
+      studentId: ""
+    };
+
+    // Firestore storage should happen AFTER popup
+    storeUserData(user, formData).catch(err => console.warn("Firestore write failed:", err));
+
+    alert("Google login successful: " + user.email);
+    window.location.href = "./student.html";
+
+  } catch (error) {
+    console.error("Google login error:", error);
+    alert("Google Login Failed: " + error.message);
+  }
+});
+
+
+// ------------------- GITHUB SIGN-IN -------------------
+document.getElementById("githubSignIn")?.addEventListener("click", async () => {
+  const provider = new GithubAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // Prepare minimal user data
+    const formData = {
+      firstName: user.displayName || (user.email ? user.email.split("@")[0] : "GitHubUser"),
+      lastName: "",
+      email: user.email || "no-email@github.com",
+      role: "student",
+      institution: "",
+      studentId: ""
+    };
+
+    // Store in Firestore
+    try {
+      await storeUserData(user, formData);
+      console.log("GitHub user stored in Firestore:", user.email);
+    } catch (firestoreError) {
+      console.error("❌ Firestore write failed (GitHub):", firestoreError);
+    }
+
+    alert("✅ GitHub login successful: " + (user.email || "No email returned"));
+    window.location.href = "./student.html";
+
+  } catch (error) {
+    console.error("❌ GitHub login error details:");
+    console.error("Code:", error.code);
+    console.error("Message:", error.message);
+    console.error("Custom data:", error.customData);
+    alert("GitHub Login Failed: " + error.message);
   }
 });
