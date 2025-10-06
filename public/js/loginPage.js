@@ -1,4 +1,4 @@
-import { auth, db } from './firebase-config.js';
+import { auth, db } from '../firebase-config';
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 import { doc, getDoc, updateDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
 
@@ -7,6 +7,34 @@ const loginForm = document.getElementById('loginForm');
 const loginBtn = document.getElementById('loginBtn');
 const errorMessage = document.getElementById('errorMessage');
 const successMessage = document.getElementById('successMessage');
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const errorMsg = document.getElementById('errorMessage');
+      const successMsg = document.getElementById('successMessage');
+      
+      errorMsg.style.display = 'none';
+      successMsg.style.display = 'none';
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        errorMsg.textContent = 'Please enter both email and password.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      // Simulate API call success/failure
+      if (password === "correct") { // Replace with actual login logic
+        successMsg.textContent = 'Login successful! Redirecting...';
+        successMsg.style.display = 'block';
+        setTimeout(() => window.location.href = './teacher.html', 1500);
+      } else {
+        errorMsg.textContent = 'Invalid email or password.';
+        errorMsg.style.display = 'block';
+      }
+    });
 
 // Show error message
 function showError(message) {

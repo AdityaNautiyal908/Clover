@@ -1,0 +1,369 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+    height: 100%;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  line-height: 1.6;
+  color: var(--color-text-default);
+  background-color: var(--color-background-page);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utility Class */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* --- HEADER & NAVIGATION --- */
+
+.site-header {
+  background-color: var(--color-background-dark-contrast);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background-color 0.3s;
+}
+
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+}
+
+.site-header h1 a {
+  font-size: 1.8rem;
+  font-weight: var(--font-weight-black);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.nav a {
+  margin-left: var(--space-md);
+  color: var(--color-text-light);
+  font-weight: var(--font-weight-semibold);
+  padding: 0.25rem 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: var(--color-primary);
+}
+
+.btn-nav {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin-left: var(--space-md);
+  background-color: var(--color-primary);
+  color: var(--color-text-light) !important;
+  transition: background-color 0.3s;
+}
+
+.btn-nav:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* --- MAIN AUTH LAYOUT --- */
+
+.auth-main {
+  flex-grow: 1; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-xl) var(--space-md); 
+  /* Visual effect for the background */
+  background: radial-gradient(circle at center, rgba(30, 136, 229, 0.1) 0%, var(--color-background-page) 70%);
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 500px; /* Slightly wider card for registration form */
+}
+
+.auth-card {
+  background-color: var(--color-background-card);
+  border-radius: 12px;
+  padding: var(--space-xl);
+  box-shadow: 0 10px 30px var(--color-shadow);
+  border: 1px solid var(--color-border);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.auth-header h1 {
+  font-size: 2rem;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-text-default);
+  margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+  color: var(--color-text-muted);
+}
+
+/* --- SOCIAL LOGIN --- */
+
+.social-login {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  background-color: var(--color-input-bg);
+  color: var(--color-text-default);
+  border: 1px solid var(--color-border);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.social-btn:hover {
+  background-color: var(--color-background-page);
+  border-color: var(--color-primary);
+}
+
+.social-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.75rem;
+}
+
+.github-btn .social-icon path {
+    /* Use current text color for Github icon in dark theme */
+    fill: var(--color-text-default); 
+}
+
+/* --- DIVIDER --- */
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: var(--space-md) 0;
+  color: var(--color-text-muted);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.divider:not(:empty)::before {
+  margin-right: 1em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 1em;
+}
+
+/* --- FORM STYLING --- */
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 0; 
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"],
+.auth-form select {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-input-bg);
+  color: var(--color-text-default);
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
+  appearance: none; /* For select tag */
+}
+
+.auth-form input::placeholder,
+.auth-form select option[value=""] {
+    color: var(--color-text-muted);
+}
+
+.auth-form input:focus,
+.auth-form select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.3);
+}
+
+/* Password input wrapper for button */
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-input-wrapper input {
+  padding-right: 3rem; /* Make space for the button */
+  width: 100%;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--color-text-muted);
+  transition: color 0.3s;
+}
+
+.password-toggle:hover {
+  color: var(--color-primary);
+}
+
+.eye-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.password-hint, .field-help {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+  transition: color 0.3s;
+}
+
+/* Messages */
+.error-message, .success-message {
+    padding: 0.75rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: var(--space-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.error-message {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+}
+
+.success-message {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+}
+
+/* Button Styling */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  box-shadow: 0 4px 15px rgba(30, 136, 229, 0.4);
+  margin-top: var(--space-md);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(30, 136, 229, 0.6);
+}
+
+.btn-full {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 1rem;
+}
+
+/* Auth Footer */
+.auth-footer {
+  text-align: center;
+  margin-top: var(--space-lg);
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.auth-footer a {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+.auth-footer a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* Media Queries */
+@media (max-width: 550px) {
+    .auth-card {
+        padding: var(--space-md);
+    }
+    .auth-main {
+        padding: var(--space-md);
+    }
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    .social-login {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+}

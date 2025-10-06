@@ -1,0 +1,294 @@
+/* Reset and Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+    height: 100%;
+    transition: background-color 0.3s, color 0.3s; /* Smooth theme transition */
+}
+
+body {
+  font-family: var(--font-family-sans);
+  line-height: 1.6;
+  /* Use the variables for colors */
+  color: var(--color-text-default);
+  background-color: var(--color-background-page);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utility Class */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* ===================================================================
+HEADER & NAVIGATION (Shared Base Styles)
+===================================================================
+*/
+.site-header {
+  /* Header uses a dark contrast color for a strong visual brand identity */
+  background-color: var(--color-background-dark-contrast);
+  box-shadow: 0 2px 4px var(--color-shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background-color 0.3s;
+}
+
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+}
+
+.site-header h1 a {
+  font-size: 1.8rem;
+  font-weight: var(--font-weight-black);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.nav a {
+  margin-left: var(--space-md);
+  color: var(--color-text-light); /* Header text is always light for contrast */
+  font-weight: var(--font-weight-semibold);
+  padding: 0.25rem 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: var(--color-primary);
+}
+
+.btn-nav {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin-left: var(--space-md);
+  background-color: var(--color-primary);
+  color: var(--color-text-light) !important;
+  transition: background-color 0.3s;
+}
+
+.btn-nav:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* ===================================================================
+MAIN AUTH LAYOUT
+===================================================================
+*/
+.auth-main {
+  flex-grow: 1; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-xl) var(--space-md); 
+  /* Visual effect for the background */
+  background: radial-gradient(circle at center, var(--color-primary), var(--color-background-page) 70%);
+  transition: background 0.3s;
+}
+
+/* DARK MODE background fix */
+.dark-theme .auth-main {
+    background: radial-gradient(circle at center, rgba(30, 136, 229, 0.1) 0%, var(--color-background-page) 70%);
+}
+
+
+.auth-container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-card {
+  background-color: var(--color-background-card);
+  border-radius: 12px;
+  padding: var(--space-xl);
+  box-shadow: 0 10px 30px var(--color-shadow);
+  border: 1px solid var(--color-border);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.auth-header h1 {
+  font-size: 2rem;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-text-default);
+  margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+  color: var(--color-text-muted);
+}
+
+/* ===================================================================
+FORM STYLING
+===================================================================
+*/
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-default);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-input-bg);
+  color: var(--color-text-default); /* Input text color */
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.auth-form input::placeholder {
+    color: var(--color-text-muted); /* Placeholder color */
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.3);
+}
+
+/* Form Options (Checkbox and Link) */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.forgot-password {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* Custom Checkbox Styling */
+.checkbox-label {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 0;
+  cursor: pointer;
+  user-select: none;
+  color: var(--color-text-muted);
+}
+
+.checkbox-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.checkbox-label input:checked ~ .checkmark {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* Button Styling */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  box-shadow: 0 4px 15px rgba(30, 136, 229, 0.4);
+  margin-top: var(--space-md);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(30, 136, 229, 0.6);
+}
+
+.btn-full {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 1rem;
+}
+
+/* Auth Footer */
+.auth-footer {
+  text-align: center;
+  margin-top: var(--space-lg);
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.auth-footer a {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+.auth-footer a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* Media Queries */
+@media (max-width: 500px) {
+    .auth-card {
+        padding: var(--space-md);
+    }
+    .auth-main {
+        padding: var(--space-md);
+    }
+}

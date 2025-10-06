@@ -1,0 +1,49 @@
+:root {
+  /* Colors - Defaulting to Light Theme */
+  --color-primary: #1e88e5; /* Blue */
+  --color-primary-dark: #1565c0; 
+  --color-secondary: #00bcd4; /* Cyan */
+  --color-accent: #00bcd4; 
+  
+  --color-text-default: #333333; /* Default text color (Dark) */
+  --color-text-muted: #666;
+  --color-text-light: #ffffff;
+  
+  --color-background-page: #f4f7fa; /* Light Page Background */
+  --color-background-card: #ffffff; /* Light Card Background */
+  --color-background-dark-contrast: #222831; /* Dark header/footer contrast */
+  --color-input-bg: #ffffff; /* Light input background */
+  --color-border: #ddd;
+  --color-shadow: rgba(0, 0, 0, 0.08);
+
+  --color-error: #f44336;
+  --color-success: #4caf50;
+
+  /* Typography */
+  --font-family-sans: 'Inter', sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Spacing */
+  --space-xxl: 5rem;
+  --space-xl: 3rem;
+  --space-lg: 2rem;
+  --space-md: 1.5rem;
+  --space-sm: 1rem;
+}
+
+/* DARK MODE VARIABLES */
+.dark-theme {
+  --color-text-default: #e0e0e0; /* Light text */
+  --color-text-muted: #a0a0a0;
+  --color-background-page: #1a202c; /* Dark Page BG */
+  --color-background-card: #2d3748; /* Dark Card BG */
+  --color-background-dark-contrast: #0f141f; /* Darker header/footer contrast */
+  --color-input-bg: #3a475a; /* Dark input background */
+  --color-border: #4a5568;
+  --color-shadow: rgba(0, 0, 0, 0.5);
+}
