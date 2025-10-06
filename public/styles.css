@@ -1706,3 +1706,56 @@ body {
     font-size: 0.8rem;
   }
 }
+
+.contributors {
+  padding: 80px 0;
+  background-color: #0a0a0a;
+  text-align: center;
+}
+
+.contributors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.contributor-card {
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.contributor-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.contributor-name {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.contributor-role {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.contributor-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.contributor-link:hover {
+  background-color: #0056b3;
+}
