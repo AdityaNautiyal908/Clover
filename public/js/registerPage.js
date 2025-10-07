@@ -1,4 +1,4 @@
-import { auth, db } from '../firebase-config.js';
+import { auth, db } from './firebase-config.js';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, GithubAuthProvider, signInWithPopup  } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 import { doc, setDoc, addDoc, collection, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';
 
@@ -120,11 +120,6 @@ window.togglePassword = function(fieldId) {
       `;
     }
 }
-
-
-// ===================================================================
-// EVENT LISTENERS
-// ===================================================================
 
 // Handle role change
 roleSelect.addEventListener('change', (e) => {
