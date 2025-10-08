@@ -11,15 +11,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body id="page-body">
-  <header class="site-header">
+  <header class="site-header animate-slide-in-top">
     <div class="container">
-      <h1><a href="./index.html">Clover</a></h1>
-      <div class="nav-actions">
+      <h1><a href="./index.html" class="animate-fade-in-left">Clover</a></h1>
+      <div class="nav-actions animate-fade-in-right">
           <nav class="nav">
             <a href="#features">Features</a>
             <a href="#about">About</a>
           </nav>
-          <button id="theme-toggle" aria-label="Toggle light and dark theme">
+          <button id="theme-toggle" aria-label="Toggle light and dark theme" class="animate-pulse">
             ☀️
           </button>
           <a href="./login.html" class="btn-nav">Login</a>
@@ -30,30 +30,31 @@
   <main>
     <section class="hero">
       <div class="hero-content">
-        <h1 class="hero-title">Personalized Assignments Made Simple</h1>
-        <p class="hero-subtitle">Create unique question sets for every student. Prevent cheating while ensuring fair assessment with **Clover's intelligent question shuffling**.</p>
+        <h1 class="hero-title animate-fade-in-up animate-stagger-1">Personalized Assignments Made Simple</h1>
+        <p class="hero-subtitle animate-fade-in-up animate-stagger-2">Create unique question sets for every student. Prevent cheating while ensuring fair assessment with **Clover's intelligent question shuffling**.</p>
         
-        <div class="hero-actions">
-          <a href="./register.html" class="btn btn-primary btn-large">Get Started Free</a>
-          <a href="#features" class="btn btn-secondary btn-large">Learn More</a>
+        <div class="hero-actions animate-fade-in-up animate-stagger-3">
+          <a href="./register.html" class="btn btn-primary btn-large animate-bounce-in">Get Started Free</a>
+          <a href="#features" class="btn btn-secondary btn-large animate-bounce-in">Learn More</a>
         </div>
         
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="stat-number">100+</span>
+        <div class="hero-stats animate-fade-in-up animate-stagger-4">
+          <div class="stat animate-float">
+            <span class="stat-number" data-count="100">0</span>
             <span class="stat-label">Questions</span>
           </div>
-          <div class="stat">
+          <div class="stat animate-float" style="animation-delay: 0.5s;">
             <span class="stat-number">Multiple</span>
             <span class="stat-label">Courses</span>
           </div>
-          <div class="stat">
+          <div class="stat animate-float" style="animation-delay: 1s;">
             <span class="stat-number">24/7</span>
             <span class="stat-label">Access</span>
           </div>
         </div>
+        <!-- Now Aparna is working on this  -->
         
-        <div class="hero-visual">
+        <div class="hero-visual animate-fade-in-scale animate-stagger-5">
           <div class="code-block">
             <div class="code-line">
               <span class="code-keyword">function</span>
@@ -63,12 +64,12 @@
               <span class="code-bracket">)</span>
             </div>
             <div class="code-line">
-              <span class="code-indent">  </span>
+              <span class="code-indent">  </span>
               <span class="code-keyword">let</span>
               <span class="code-variable">seed</span> = <span class="code-function">hash</span>(<span class="code-param">studentId</span>);
             </div>
             <div class="code-line">
-              <span class="code-indent">  </span>
+              <span class="code-indent">  </span>
               <span class="code-keyword">return</span>
               <span class="code-function">shuffle</span>(<span class="code-variable">questions</span>, <span class="code-variable">seed</span>);
               <span class="code-comment">// Unique order per student!</span>
@@ -83,40 +84,40 @@
 
     <section id="features" class="features">
       <div class="container">
-        <h2 class="section-title">Why Choose Clover?</h2>
+        <h2 class="section-title animate-on-scroll">Why Choose Clover?</h2>
         <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon">🎯</div>
+          <div class="feature-card animate-on-scroll animate-stagger-1">
+            <div class="feature-icon animate-pulse">🎯</div>
             <h3>Personalized Questions</h3>
             <p>Each student gets the same core questions but in a unique, intelligent order, preventing cheating while maintaining fairness.</p>
           </div>
           
-          <div class="feature-card">
-            <div class="feature-icon">👨‍🏫</div>
+          <div class="feature-card animate-on-scroll animate-stagger-2">
+            <div class="feature-icon animate-pulse">👨‍🏫</div>
             <h3>Teacher Dashboard</h3>
             <p>Our intuitive interface makes creating, managing, and organizing question banks by course a breeze for educators.</p>
           </div>
           
-          <div class="feature-card">
-            <div class="feature-icon">📊</div>
+          <div class="feature-card animate-on-scroll animate-stagger-3">
+            <div class="feature-icon animate-pulse">📊</div>
             <h3>Progress Tracking</h3>
             <p>Organize assignments by courses, analyze class performance, and track individual student progress across different subjects.</p>
           </div>
           
-          <div class="feature-card">
-            <div class="feature-icon">🔒</div>
+          <div class="feature-card animate-on-scroll animate-stagger-4">
+            <div class="feature-icon animate-pulse">🔒</div>
             <h3>Secure & Reliable</h3>
             <p>Built on modern cloud infrastructure for secure authentication, reliable data storage, and guaranteed uptime.</p>
           </div>
           
-          <div class="feature-card">
-            <div class="feature-icon">⚡</div>
+          <div class="feature-card animate-on-scroll animate-stagger-5">
+            <div class="feature-icon animate-pulse">⚡</div>
             <h3>Fast & Responsive</h3>
             <p>Optimized for lightning-fast load times with a responsive design that provides a seamless experience on all devices.</p>
           </div>
           
-          <div class="feature-card">
-            <div class="feature-icon">🎨</div>
+          <div class="feature-card animate-on-scroll animate-stagger-6">
+            <div class="feature-icon animate-pulse">🎨</div>
             <h3>Modern Interface</h3>
             <p>Enjoy a clean, intuitive, and modern design that makes managing and taking assignments genuinely enjoyable.</p>
           </div>
@@ -126,22 +127,22 @@
 
     <section class="how-it-works">
       <div class="container">
-        <h2 class="section-title">How It Works</h2>
+        <h2 class="section-title animate-on-scroll">How It Works</h2>
         <div class="steps">
-          <div class="step">
-            <div class="step-number">1</div>
+          <div class="step animate-on-scroll animate-stagger-1">
+            <div class="step-number animate-bounce-in">1</div>
             <h3>Teachers Create Questions</h3>
             <p>Add questions to your secure course bank, set points, and categorize them effortlessly in the teacher portal.</p>
           </div>
           
-          <div class="step">
-            <div class="step-number">2</div>
+          <div class="step animate-on-scroll animate-stagger-2">
+            <div class="step-number animate-bounce-in">2</div>
             <h3>Students Log In</h3>
             <p>Students use their secure credentials (or student ID) to log in and select the assignment for their specific course.</p>
           </div>
           
-          <div class="step">
-            <div class="step-number">3</div>
+          <div class="step animate-on-scroll animate-stagger-3">
+            <div class="step-number animate-bounce-in">3</div>
             <h3>Get Unique Question Set</h3>
             <p>Our algorithm instantly generates a personalized assignment with a unique question order for maximum integrity.</p>
           </div>
@@ -151,26 +152,26 @@
 
     <section id="contributors" class="contributors">
       <div class="container">
-        <h2 class="section-title">Our Contributors</h2>
-        <p class="section-subtitle">A huge thank you to the talented people helping build Clover.</p>
+        <h2 class="section-title animate-on-scroll">Our Contributors</h2>
+        <p class="section-subtitle animate-on-scroll">A huge thank you to the talented people helping build Clover.</p>
         <div class="contributors-grid">
           
-          <div class="contributor-card">
-            <img src="./images/aditya_nau.jpg" alt="Aditya Nautiyal" class="contributor-photo">
+          <div class="contributor-card animate-on-scroll animate-stagger-1">
+            <img src="./images/aditya_nau.jpg" alt="Aditya Nautiyal" class="contributor-photo animate-float">
             <h4 class="contributor-name">Aditya Nautiyal</h4>
             <p class="contributor-role">Lead Developer</p>
             <a href="https://github.com/AdityaNautiyal908" target="_blank" class="contributor-link">GitHub Profile</a>
           </div>
 
-          <div class="contributor-card">
-            <img src="./images/aparna.jpg" alt="Aparna Singh" class="contributor-photo">
+          <div class="contributor-card animate-on-scroll animate-stagger-2">
+            <img src="./images/aparna.jpg" alt="Aparna Singh" class="contributor-photo animate-float" style="animation-delay: 0.3s;">
             <h4 class="contributor-name">Aparna Singh</h4>
             <p class="contributor-role">UX/UI Designer</p>
             <a href="https://github.com/AS2509X" target="_blank" class="contributor-link">GitHub Profile</a>
           </div>
 
-          <div class="contributor-card">
-            <img src="./images/luffy.jpg" alt="Monkey D Luffy" class="contributor-photo">
+          <div class="contributor-card animate-on-scroll animate-stagger-3">
+            <img src="./images/luffy.jpg" alt="Monkey D Luffy" class="contributor-photo animate-float" style="animation-delay: 0.6s;">
             <h4 class="contributor-name">Monkey D Luffy</h4>
             <p class="contributor-role">Tester</p>
             <a href="https://github.com/alicejohnson" target="_blank" class="contributor-link">GitHub Profile</a>
@@ -182,11 +183,11 @@
 
     <section class="cta-section">
       <div class="container">
-        <h2>Ready to End Assignment Cheating?</h2>
-        <p>Join thousands of teachers and students who are already using Clover for fair, personalized assignments.</p>
-        <div class="cta-actions">
-          <a href="./register.html" class="btn btn-primary btn-large">Create Free Account</a>
-          <a href="./login.html" class="btn btn-secondary btn-large">Sign In</a>
+        <h2 class="animate-on-scroll">Ready to End Assignment Cheating?</h2>
+        <p class="animate-on-scroll">Join thousands of teachers and students who are already using Clover for fair, personalized assignments.</p>
+        <div class="cta-actions animate-on-scroll">
+          <a href="./register.html" class="btn btn-primary btn-large animate-bounce-in">Create Free Account</a>
+          <a href="./login.html" class="btn btn-secondary btn-large animate-bounce-in">Sign In</a>
         </div>
       </div>
     </section>
@@ -228,5 +229,204 @@
     </div>
   </footer>
   <script src="./js/landing.js"></script>
+  <script>
+    // Enhanced Animation System
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // Scroll-triggered animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animated');
+            
+            // Trigger counter animation for stats
+            if (entry.target.classList.contains('stat-number') && entry.target.dataset.count) {
+              animateCounter(entry.target);
+            }
+          }
+        });
+      }, observerOptions);
+
+      // Observe all elements with animate-on-scroll class
+      document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        observer.observe(el);
+      });
+
+      // Counter animation function
+      function animateCounter(element) {
+        const target = parseInt(element.dataset.count);
+        const duration = 2000; // 2 seconds
+        const start = performance.now();
+        
+        function updateCounter(currentTime) {
+          const elapsed = currentTime - start;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Easing function for smooth animation
+          const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+          const current = Math.floor(target * easeOutQuart);
+          
+          element.textContent = current + '+';
+          
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          } else {
+            element.textContent = target + '+';
+          }
+        }
+        
+        requestAnimationFrame(updateCounter);
+      }
+
+      // Removed parallax effect to avoid layout overlap and keep normal flow
+
+      // Enhanced button interactions
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-2px) scale(1.05)';
+        });
+        
+        btn.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+        });
+        
+        btn.addEventListener('mousedown', function() {
+          this.style.transform = 'translateY(0) scale(0.98)';
+        });
+        
+        btn.addEventListener('mouseup', function() {
+          this.style.transform = 'translateY(-2px) scale(1.05)';
+        });
+      });
+
+      // Feature card hover effects
+      document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-10px) scale(1.02)';
+          this.style.boxShadow = '0 20px 40px rgba(30, 136, 229, 0.3)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+          this.style.boxShadow = '0 4px 15px var(--color-shadow)';
+        });
+      });
+
+      // Contributor card hover effects
+      document.querySelectorAll('.contributor-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.08) rotate(2deg)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'scale(1) rotate(0deg)';
+        });
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Add loading animation to page
+      document.body.classList.add('loading');
+      setTimeout(() => {
+        document.body.classList.remove('loading');
+      }, 1000);
+
+      // Typing effect for code block (optional enhancement)
+      const codeLines = document.querySelectorAll('.code-line');
+      codeLines.forEach((line, index) => {
+        line.style.opacity = '0';
+        setTimeout(() => {
+          line.style.opacity = '1';
+          line.style.animation = 'fadeInUp 0.6s ease-out forwards';
+        }, 500 + (index * 500));
+      });
+
+      // Add ripple effect to buttons
+      document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+          const ripple = document.createElement('span');
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+          
+          ripple.style.width = ripple.style.height = size + 'px';
+          ripple.style.left = x + 'px';
+          ripple.style.top = y + 'px';
+          ripple.classList.add('ripple');
+          
+          this.appendChild(ripple);
+          
+          setTimeout(() => {
+            ripple.remove();
+          }, 600);
+        });
+      });
+
+      // Add CSS for ripple effect
+      const style = document.createElement('style');
+      style.textContent = `
+        .btn {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .ripple {
+          position: absolute;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.3);
+          transform: scale(0);
+          animation: ripple-animation 0.6s linear;
+          pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+
+      console.log('🎨 Animation system initialized successfully!');
+    });
+
+    // Performance optimization: Throttle scroll events
+    function throttle(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Add reduced motion support
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.style.setProperty('--animation-duration', '0.01ms');
+      document.documentElement.style.setProperty('--transition-duration', '0.01ms');
+    }
+  </script>
 </body>
 </html>
