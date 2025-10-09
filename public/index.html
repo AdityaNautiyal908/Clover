@@ -1,235 +1,700 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clover - Personalized Assignments</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="./css/variables.css">
-  <link rel="stylesheet" href="./css/landing.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clover - Personalized Assignments</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/variables.css">
+    
+    <style>
+        /* Reset and Base Styles */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: var(--font-family-sans); line-height: 1.6; color: var(--color-text-default); background-color: var(--color-background-page); transition: background-color 0.3s, color 0.3s; padding-top: 0; /* Remove padding-top from original CSS to allow sticky header */ }
+
+        /* Utility Class */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md); }
+
+        /* Headings */
+        h1, h2, h3, h4 { line-height: 1.2; font-weight: var(--font-weight-bold); color: var(--color-text-default); transition: color 0.3s; }
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.5rem; margin-bottom: var(--space-lg); }
+        h3 { font-size: 1.5rem; margin-bottom: var(--space-sm); }
+
+        /* Links */
+        a { text-decoration: none; color: var(--color-primary); transition: color 0.3s ease; }
+        a:hover { color: var(--color-primary-dark); }
+
+        /* Buttons */
+        .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: var(--font-weight-semibold); text-align: center; transition: all 0.3s ease; border: 2px solid transparent; white-space: nowrap; position: relative; overflow: hidden; }
+        .btn-primary { background-color: var(--color-primary); color: var(--color-text-light); box-shadow: 0 4px 15px rgba(30, 136, 229, 0.4); }
+        .btn-primary:hover { background-color: var(--color-primary-dark); color: var(--color-text-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(30, 136, 229, 0.6); }
+        .btn-secondary { background-color: transparent; color: var(--color-primary); border-color: var(--color-primary); }
+        .btn-secondary:hover { background-color: var(--color-primary); color: var(--color-text-light); border-color: var(--color-primary); }
+        .btn-large { padding: 1rem 2rem; font-size: 1.1rem; }
+        .btn-nav { padding: 0.5rem 1rem; border-radius: 6px; margin-left: var(--space-md); background-color: var(--color-primary); color: var(--color-text-light) !important; }
+        .btn-nav:hover { background-color: var(--color-primary-dark); }
+        .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
+        .btn:hover::before { left: 100%; }
+
+        /* Sections */
+        section { padding: var(--space-xxl) 0; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: var(--space-xl); font-weight: 800; }
+        .section-subtitle { text-align: center; font-size: 1.25rem; margin-bottom: var(--space-xl); color: var(--color-text-muted); }
+
+        /* HEADER & NAVIGATION */
+        .site-header { background-color: var(--color-background-card); box-shadow: 0 2px 4px var(--color-shadow); position: sticky; top: 0; z-index: 1000; transition: background-color 0.3s; }
+        .site-header .container { display: flex; justify-content: space-between; align-items: center; padding-top: var(--space-sm); padding-bottom: var(--space-sm); }
+        .site-header h1 a { font-size: 1.8rem; font-weight: 900; color: var(--color-primary-dark); }
+        .nav-actions { display: flex; align-items: center; gap: var(--space-sm); }
+        .nav a { margin-left: var(--space-md); color: var(--color-text-default); font-weight: var(--font-weight-medium); padding: 0.25rem 0.5rem; transition: color 0.3s; }
+        .nav a:hover { color: var(--color-primary); }
+
+        /* Theme Toggle Button */
+        #theme-toggle { background: var(--color-background-page); color: var(--color-text-default); border: 1px solid var(--color-border); border-radius: 6px; cursor: pointer; padding: 0.5rem 0.75rem; font-size: 1.1rem; line-height: 1; transition: background-color 0.3s, border-color 0.3s; margin-right: var(--space-sm); }
+        #theme-toggle:hover { background-color: var(--color-background-card); border-color: var(--color-primary); }
+        .dark-theme #theme-toggle { background: var(--color-background-card); color: var(--color-primary); border-color: var(--color-primary); }
+
+        /* HERO SECTION */
+        .hero { padding: var(--space-xxl) 0; text-align: center; }
+        .hero .hero-content { max-width: 1000px; margin: 0 auto; padding: 0 var(--space-md); }
+        .hero-title { font-size: 3.5rem; font-weight: 900; max-width: 800px; margin: 0 auto var(--space-md); }
+        .hero-subtitle { font-size: 1.35rem; color: var(--color-text-muted); max-width: 700px; margin: 0 auto var(--space-xl); }
+        .hero-actions { display: flex; justify-content: center; gap: var(--space-md); margin-bottom: var(--space-xl); }
+        .hero-stats { display: flex; justify-content: center; gap: var(--space-xl); margin-top: var(--space-xl); }
+        .stat-number { color: var(--color-primary); opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+        .stat-number.animated { opacity: 1; transform: translateY(0); animation: counterUp 0.8s ease-out forwards; }
+
+        /* Code Visual Styles */
+        .hero-visual { margin-top: var(--space-xxl); margin-bottom: var(--space-xxl); }
+        .code-block { background-color: var(--color-background-dark-contrast); color: #f8f8f2; padding: var(--space-md) var(--space-lg); border-radius: 12px; box-shadow: 0 10px 30px var(--color-shadow); font-family: monospace; font-size: 0.95rem; min-width: 350px; margin-left: auto; margin-right: auto; }
+        .code-keyword { color: #f92672; } 
+        .code-function { color: #a6e22e; } 
+        .code-bracket, .code-param, .code-variable { color: #66d9ef; } 
+        .code-string { color: #e6db74; } 
+        .code-comment { color: #75715e; font-style: italic; } 
+        .code-indent { display: inline-block; width: 1.5rem; }
+        .code-line { opacity: 0; animation: fadeInUp 0.6s ease-out forwards; }
+        .code-line:nth-child(1) { animation-delay: 0.5s; }
+        .code-line:nth-child(2) { animation-delay: 1s; }
+        .code-line:nth-child(3) { animation-delay: 1.5s; }
+        .code-line:nth-child(4) { animation-delay: 2s; }
+
+        .features { 
+            background-color: var(--color-background-page);
+            padding: var(--space-xxl) 0;
+        }
+        .features-wrapper {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Left Column: Scroll Triggers (Titles) */
+        .features-left-column {
+            flex: 1;
+            padding-right: var(--space-xxl);
+        }
+        .scroll-trigger {
+            /* Each trigger must be tall to define a long scroll distance */
+            min-height: 90vh; 
+            padding: var(--space-xl) 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center the title vertically in its zone */
+            opacity: 0.3; /* Non-active title is dim */
+            transition: opacity 0.5s;
+            cursor: default;
+        }
+        .scroll-trigger.active {
+            opacity: 1; /* Active title is fully visible */
+            color: var(--color-primary-dark);
+        }
+        .scroll-trigger h3 {
+            font-size: 2.2em;
+            margin: 0;
+            line-height: 1.2;
+            transition: color 0.3s;
+        }
+        .scroll-trigger p {
+            font-size: 1em;
+            margin-top: var(--space-md);
+            color: var(--color-text-muted);
+        }
+        .scroll-trigger .feature-icon-title {
+             font-size: 3rem;
+             margin-bottom: var(--space-md);
+        }
+
+        /* Right Column: The Sticky Content Display (Desktop) */
+        .features-right-column {
+            flex: 1;
+            /* CRUCIAL: Make the entire content display sticky */
+            position: sticky;
+            top: 100px; /* Sticks below the fixed header (~60px) + a little margin */
+            height: 70vh; /* The height of the sticky viewport for the content */
+            overflow: hidden;
+            background-color: var(--color-background-dark-contrast); /* Dark background for the image/card */
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--color-shadow);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s; /* for smooth transition on resize */
+        }
+
+        .content-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateY(30px); /* Slide from bottom for a cleaner look */
+            transition: opacity 0.8s, transform 0.8s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .content-item.active {
+            opacity: 1;
+            transform: translateY(0); /* Slide fully into view */
+        }
+        .content-item img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        /* End Sticky Scroll Styles */
+
+        /* How It Works (existing styles) */
+        .steps { display: flex; justify-content: space-around; gap: var(--space-lg); text-align: center; }
+        .step { flex: 1; max-width: 300px; padding: var(--space-lg); border: 1px solid var(--color-border); border-radius: 12px; background-color: var(--color-background-card); box-shadow: 0 2px 10px var(--color-shadow); transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; }
+        .step-number { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-primary); color: var(--color-text-light); font-weight: var(--font-weight-bold); margin-bottom: var(--space-sm); font-size: 1.25rem; }
+        .step h3 { color: var(--color-primary-dark); }
+
+        /* Contributors (existing styles) */
+        .contributors { background-color: var(--color-background-card); }
+        .contributors-grid { display: flex; justify-content: center; gap: var(--space-xl); flex-wrap: wrap; }
+        .contributor-card { width: 250px; text-align: center; padding: var(--space-lg); border-radius: 12px; background-color: var(--color-background-page); box-shadow: 0 4px 15px var(--color-shadow); transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s; }
+        .contributor-card:hover { transform: scale(1.05); }
+        .contributor-photo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: var(--space-sm); border: 4px solid var(--color-primary); box-shadow: 0 0 0 4px var(--color-background-card); transition: box-shadow 0.3s; }
+        .contributor-role { font-style: italic; color: var(--color-text-muted); margin-bottom: var(--space-sm); }
+
+        /* CTA Section (existing styles) */
+        .cta-section { background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); color: var(--color-text-light); padding: var(--space-xxl) 0; text-align: center; }
+        .cta-section h2 { color: var(--color-text-light); }
+        .cta-section p { font-size: 1.2rem; margin-bottom: var(--space-xl); color: rgba(255, 255, 255, 1); }
+        .cta-actions { display: flex; justify-content: center; gap: var(--space-md); }
+        .cta-section .btn-primary { background-color: var(--color-text-light); color: var(--color-primary-dark); border-color: var(--color-text-light); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+        .cta-section .btn-primary:hover { background-color: #eee; transform: translateY(-2px); }
+        .cta-section .btn-secondary { border-color: var(--color-text-light); color: var(--color-text-light); background-color: rgba(255, 255, 255, 0.1); }
+        .cta-section .btn-secondary:hover { background-color: rgba(255, 255, 255, 0.25); border-color: var(--color-text-light); }
+
+        /* Footer (existing styles) */
+        .site-footer { background-color: var(--color-background-dark-contrast); color: #b0b0b0; padding: var(--space-xl) 0 var(--space-sm) 0; font-size: 0.9rem; transition: background-color 0.3s; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-lg); padding-bottom: var(--space-lg); border-bottom: 1px solid #3d4a57; }
+        .footer-section { max-width: 300px; }
+        .footer-section h3, .footer-section h4 { color: var(--color-text-light); margin-bottom: var(--space-sm); font-weight: 600; }
+        .footer-section h3 { font-size: 1.5rem; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li a { color: #b0b0b0; padding: 0.2rem 0; display: inline-block; }
+        .footer-section ul li a:hover { color: var(--color-primary); }
+        .footer-bottom { text-align: center; padding-top: var(--space-md); }
+        .footer-bottom p { color: #888; }
+
+        /* Animations (existing styles) */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { opacity: 1; transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        /* Reduced motion and media queries (retained) */
+        @media (max-width: 768px) { .animate-on-scroll { transform: translateY(20px); } }
+        @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
+        @media (max-width: 992px) { .hero-title { font-size: 3rem; } .footer-content { justify-content: space-around; } }
+        @media (max-width: 768px) { 
+            /* Simplified mobile layout for scroll sync section */
+            .features-wrapper { flex-direction: column; }
+            .features-left-column { padding-right: 0; }
+            .scroll-trigger { min-height: 40vh; opacity: 1; text-align: center; } /* Opacity set to 1 on mobile since titles are not synced */
+            
+            /* Mobile: Disable Sticky behavior, make content appear naturally in flow */
+            .features-right-column { 
+                position: relative; 
+                top: auto; 
+                height: 50vh; 
+                margin: var(--space-lg) auto; /* Center it */
+                max-width: 90%; /* Constrain width */
+            }
+            .content-item {
+                 /* Reset positioning for mobile stacked layout */
+                position: relative;
+                transform: none;
+                opacity: 1; 
+                transition: none; /* Disable transitions when stacked */
+                display: none; /* Hide non-active items in stacked layout */
+            }
+             .content-item.active {
+                display: flex; /* Show the active item in stacked layout */
+                opacity: 1;
+                transform: none;
+            }
+
+
+            /* Other mobile styles */
+            h2 { font-size: 2rem; } 
+            section { padding: var(--space-xl) 0; } 
+            .site-header .container { flex-direction: column; text-align: center; } 
+            .site-header h1 { margin-bottom: var(--space-sm); } 
+            .nav-actions { order: 2; width: 100%; justify-content: center; margin-top: var(--space-sm); } 
+            .nav { display: flex; justify-content: center; margin-bottom: var(--space-sm); } 
+            .nav a { margin: 0 0.5rem; } 
+            #theme-toggle { order: -1; margin-right: 0.5rem; }
+            .hero-title { font-size: 2.5rem; } 
+            .hero-actions { flex-direction: column; align-items: center; } 
+            .hero-actions .btn { width: 80%; max-width: 300px; } 
+            .hero-stats { flex-wrap: wrap; } 
+            .steps { flex-direction: column; align-items: center; } 
+            .step { width: 100%; max-width: 400px; }
+            .cta-actions { flex-direction: column; align-items: center; } 
+            .cta-actions .btn-large { width: 80%; max-width: 350px; } 
+            .footer-content { flex-direction: column; align-items: center; text-align: center; } 
+            .footer-section { max-width: 100%; } 
+        }
+    </style>
 </head>
 <body id="page-body">
-  <header class="site-header animate-slide-in-top">
-    <div class="container">
-      <h1><a href="./index.html" class="animate-fade-in-left">Clover</a></h1>
-      <div class="nav-actions animate-fade-in-right">
-          <nav class="nav">
-            <a href="#features">Features</a>
-            <a href="#about">About</a>
-          </nav>
-          <button id="theme-toggle" aria-label="Toggle light and dark theme" class="animate-pulse">
-            ☀️
-          </button>
-          <a href="./login.html" class="btn-nav">Login</a>
-      </div>
-    </div>
-  </header>
+    <header class="site-header animate-slide-in-top">
+        <div class="container">
+            <h1><a href="./index.html" class="animate-fade-in-left">Clover</a></h1>
+            <div class="nav-actions animate-fade-in-right">
+                <nav class="nav">
+                    <a href="#features">Features</a>
+                    <a href="#about">About</a>
+                </nav>
+                <button id="theme-toggle" aria-label="Toggle light and dark theme" class="animate-pulse">
+                    ☀️
+                </button>
+                <a href="./login.html" class="btn-nav">Login</a>
+            </div>
+        </div>
+    </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <h1 class="hero-title animate-fade-in-up animate-stagger-1">Personalized Assignments Made Simple</h1>
-        <p class="hero-subtitle animate-fade-in-up animate-stagger-2">Create unique question sets for every student. Prevent cheating while ensuring fair assessment with **Clover's intelligent question shuffling**.</p>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title animate-fade-in-up animate-stagger-1">Personalized Assignments Made Simple</h1>
+                <p class="hero-subtitle animate-fade-in-up animate-stagger-2">Create unique question sets for every student. Prevent cheating while ensuring fair assessment with **Clover's intelligent question shuffling**.</p>
+                
+                <div class="hero-actions animate-fade-in-up animate-stagger-3">
+                    <a href="./register.html" class="btn btn-primary btn-large animate-bounce-in">Get Started Free</a>
+                    <a href="#features" class="btn btn-secondary btn-large animate-bounce-in">Learn More</a>
+                </div>
+                
+                <div class="hero-stats animate-fade-in-up animate-stagger-4">
+                    <div class="stat animate-float">
+                        <span class="stat-number" data-count="100">0</span>
+                        <span class="stat-label">Questions</span>
+                    </div>
+                    <div class="stat animate-float" style="animation-delay: 0.5s;">
+                        <span class="stat-number">Multiple</span>
+                        <span class="stat-label">Courses</span>
+                    </div>
+                    <div class="stat animate-float" style="animation-delay: 1s;">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Access</span>
+                    </div>
+                </div>
+                
+                <div class="hero-visual animate-fade-in-scale animate-stagger-5">
+                    <div class="code-block">
+                        <div class="code-line">
+                            <span class="code-keyword">function</span>
+                            <span class="code-function">generateQuestions</span>
+                            <span class="code-bracket">(</span>
+                            <span class="code-param">studentId</span>
+                            <span class="code-bracket">)</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="code-indent">  </span>
+                            <span class="code-keyword">let</span>
+                            <span class="code-variable">seed</span> = <span class="code-function">hash</span>(<span class="code-param">studentId</span>);
+                        </div>
+                        <div class="code-line">
+                            <span class="code-indent">  </span>
+                            <span class="code-keyword">return</span>
+                            <span class="code-function">shuffle</span>(<span class="code-variable">questions</span>, <span class="code-variable">seed</span>);
+                            <span class="code-comment">// Unique order per student!</span>
+                        </div>
+                        <div class="code-line">
+                            <span class="code-bracket">}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Why Choose Clover?</h2>
+            </div>
+
+            <div class="features-wrapper container">
+                <div class="features-left-column">
+                    
+                    <div class="scroll-trigger" data-id="personalized">
+                        <div class="feature-icon-title">🎯</div>
+                        <h3>Personalized Questions</h3>
+                        <p>Each student gets the same core questions but in a unique, intelligent order, preventing cheating while maintaining fairness.</p>
+                    </div>
+
+                    <div class="scroll-trigger" data-id="dashboard">
+                        <div class="feature-icon-title">👨‍🏫</div>
+                        <h3>Teacher Dashboard</h3>
+                        <p>Our intuitive interface makes creating, managing, and organizing question banks by course a breeze for educators.</p>
+                    </div>
+                    
+                    <div class="scroll-trigger" data-id="tracking">
+                        <div class="feature-icon-title">📊</div>
+                        <h3>Progress Tracking</h3>
+                        <p>Organize assignments by courses, analyze class performance, and track individual student progress across different subjects.</p>
+                    </div>
+                    
+                    <div class="scroll-trigger" data-id="secure">
+                        <div class="feature-icon-title">🔒</div>
+                        <h3>Secure & Reliable</h3>
+                        <p>Built on modern cloud infrastructure for secure authentication, reliable data storage, and guaranteed uptime.</p>
+                    </div>
+                    
+                    <div class="scroll-trigger" data-id="fast">
+                        <div class="feature-icon-title">⚡</div>
+                        <h3>Fast & Responsive</h3>
+                        <p>Optimized for lightning-fast load times with a responsive design that provides a seamless experience on all devices.</p>
+                    </div>
+                    
+                    <div class="scroll-trigger" data-id="modern">
+                        <div class="feature-icon-title">🎨</div>
+                        <h3>Modern Interface</h3>
+                        <p>Enjoy a clean, intuitive, and modern design that makes managing and taking assignments genuinely enjoyable.</p>
+                    </div>
+
+                </div>
+
+                <div class="features-right-column sticky-content-display">
+                    
+                    <div class="content-item active" data-id="personalized">
+                        <img src="./images/question.jpg" alt="Personalized Questions Interface" />
+                    </div>
+
+                    <div class="content-item" data-id="dashboard">
+                        <img src="./images/question2.jpg" alt="Teacher Dashboard" />
+                    </div>
+
+                    <div class="content-item" data-id="tracking">
+                        <img src="./images/question3.jpg" alt="Progress Tracking" />
+                    </div>
+                    
+                    <div class="content-item" data-id="secure">
+                        <img src="./images/question4.jpg" alt="Secure & Reliable" />
+                    </div>
+                    
+                    <div class="content-item" data-id="fast">
+                        <img src="./images/question5.jpg" alt="Fast & Responsive" />
+                    </div>
+                    
+                    <div class="content-item" data-id="modern">
+                        <img src="./images/question6.jpg" alt="Modern Interface" />
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">How It Works </h2>
+                <div class="steps">
+                    <div class="step animate-on-scroll animate-stagger-1">
+                        <div class="step-number animate-bounce-in">1</div>
+                        <h3>Teachers Create Questions</h3>
+                        <p>Add questions to your secure course bank, set points, and categorize them effortlessly in the teacher portal.</p>
+                    </div>
+                    
+                    <div class="step animate-on-scroll animate-stagger-2">
+                        <div class="step-number animate-bounce-in">2</div>
+                        <h3>Students Log In</h3>
+                        <p>Students use their secure credentials (or student ID) to log in and select the assignment for their specific course.</p>
+                    </div>
+                    
+                    <div class="step animate-on-scroll animate-stagger-3">
+                        <div class="step-number animate-bounce-in">3</div>
+                        <h3>Get Unique Question Set</h3>
+                        <p>Our algorithm instantly generates a personalized assignment with a unique question order for maximum integrity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contributors" class="contributors">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Our Contributors</h2>
+                <p class="section-subtitle animate-on-scroll">A huge thank you to the talented people helping build Clover.</p>
+                <div class="contributors-grid">
+                    
+                    <div class="contributor-card animate-on-scroll animate-stagger-1">
+                        <img src="./images/aditya_nau.jpg" alt="Aditya Nautiyal" class="contributor-photo animate-float">
+                        <h4 class="contributor-name">Aditya Nautiyal</h4>
+                        <p class="contributor-role">Lead Developer</p>
+                        <a href="https://github.com/AdityaNautiyal908" target="_blank" class="contributor-link">GitHub Profile</a>
+                    </div>
+
+                    <div class="contributor-card animate-on-scroll animate-stagger-2">
+                        <img src="./images/aparna.jpg" alt="Aparna Singh" class="contributor-photo animate-float" style="animation-delay: 0.3s;">
+                        <h4 class="contributor-name">Aparna Singh</h4>
+                        <p class="contributor-role">UX/UI Designer</p>
+                        <a href="https://github.com/AS2509X" target="_blank" class="contributor-link">GitHub Profile</a>
+                    </div>
+
+                    <div class="contributor-card animate-on-scroll animate-stagger-3">
+                        <img src="./images/luffy.jpg" alt="Monkey D Luffy" class="contributor-photo animate-float" style="animation-delay: 0.6s;">
+                        <h4 class="contributor-name">Monkey D Luffy</h4>
+                        <p class="contributor-role">Tester</p>
+                        <a href="https://github.com/alicejohnson" target="_blank" class="contributor-link">GitHub Profile</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="animate-on-scroll">Ready to End Assignment Cheating?</h2>
+                <p class="animate-on-scroll">Join thousands of teachers and students who are already using Clover for fair, personalized assignments.</p>
+                <div class="cta-actions animate-on-scroll">
+                    <a href="./register.html" class="btn btn-primary btn-large animate-bounce-in">Create Free Account</a>
+                    <a href="./login.html" class="btn btn-secondary btn-large animate-bounce-in">Sign In</a>
+                </div>
+            </div>
+        </section>
         
-        <div class="hero-actions animate-fade-in-up animate-stagger-3">
-          <a href="./register.html" class="btn btn-primary btn-large animate-bounce-in">Get Started Free</a>
-          <a href="#features" class="btn btn-secondary btn-large animate-bounce-in">Learn More</a>
-        </div>
-        
-        <div class="hero-stats animate-fade-in-up animate-stagger-4">
-          <div class="stat animate-float">
-            <span class="stat-number" data-count="100">0</span>
-            <span class="stat-label">Questions</span>
-          </div>
-          <div class="stat animate-float" style="animation-delay: 0.5s;">
-            <span class="stat-number">Multiple</span>
-            <span class="stat-label">Courses</span>
-          </div>
-          <div class="stat animate-float" style="animation-delay: 1s;">
-            <span class="stat-number">24/7</span>
-            <span class="stat-label">Access</span>
-          </div>
-        </div>
-        
-        <div class="hero-visual animate-fade-in-scale animate-stagger-5">
-          <div class="code-block">
-            <div class="code-line">
-              <span class="code-keyword">function</span>
-              <span class="code-function">generateQuestions</span>
-              <span class="code-bracket">(</span>
-              <span class="code-param">studentId</span>
-              <span class="code-bracket">)</span>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Clover</h3>
+                    <p>Making assignments fair and personalized for every student.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="./login.html">Login</a></li>
+                        <li><a href="./register.html">Register</a></li>
+                        <li><a href="./teacher.html">Teacher Portal</a></li>
+                        <li><a href="./student.html">Student Portal</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <ul>
+                        <li><a href="#features">Personalized Questions</a></li>
+                        <li><a href="#features">Course Management</a></li>
+                        <li><a href="#features">Teacher Dashboard</a></li>
+                        <li><a href="#features">Secure Platform</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="code-line">
-              <span class="code-indent">  </span>
-              <span class="code-keyword">let</span>
-              <span class="code-variable">seed</span> = <span class="code-function">hash</span>(<span class="code-param">studentId</span>);
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="year"></span> Clover. All rights reserved.</p>
             </div>
-            <div class="code-line">
-              <span class="code-indent">  </span>
-              <span class="code-keyword">return</span>
-              <span class="code-function">shuffle</span>(<span class="code-variable">questions</span>, <span class="code-variable">seed</span>);
-              <span class="code-comment">// Unique order per student!</span>
-            </div>
-            <div class="code-line">
-              <span class="code-bracket">}</span>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
-
-    <section id="features" class="features">
-      <div class="container">
-        <h2 class="section-title animate-on-scroll">Why Choose Clover?</h2>
-        <div class="features-grid">
-          <div class="feature-card animate-on-scroll animate-stagger-1">
-            <div class="feature-icon animate-pulse">🎯</div>
-            <h3>Personalized Questions</h3>
-            <p>Each student gets the same core questions but in a unique, intelligent order, preventing cheating while maintaining fairness.</p>
-          </div>
-          
-          <div class="feature-card animate-on-scroll animate-stagger-2">
-            <div class="feature-icon animate-pulse">👨‍🏫</div>
-            <h3>Teacher Dashboard</h3>
-            <p>Our intuitive interface makes creating, managing, and organizing question banks by course a breeze for educators.</p>
-          </div>
-          
-          <div class="feature-card animate-on-scroll animate-stagger-3">
-            <div class="feature-icon animate-pulse">📊</div>
-            <h3>Progress Tracking</h3>
-            <p>Organize assignments by courses, analyze class performance, and track individual student progress across different subjects.</p>
-          </div>
-          
-          <div class="feature-card animate-on-scroll animate-stagger-4">
-            <div class="feature-icon animate-pulse">🔒</div>
-            <h3>Secure & Reliable</h3>
-            <p>Built on modern cloud infrastructure for secure authentication, reliable data storage, and guaranteed uptime.</p>
-          </div>
-          
-          <div class="feature-card animate-on-scroll animate-stagger-5">
-            <div class="feature-icon animate-pulse">⚡</div>
-            <h3>Fast & Responsive</h3>
-            <p>Optimized for lightning-fast load times with a responsive design that provides a seamless experience on all devices.</p>
-          </div>
-          
-          <div class="feature-card animate-on-scroll animate-stagger-6">
-            <div class="feature-icon animate-pulse">🎨</div>
-            <h3>Modern Interface</h3>
-            <p>Enjoy a clean, intuitive, and modern design that makes managing and taking assignments genuinely enjoyable.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="how-it-works">
-      <div class="container">
-        <h2 class="section-title animate-on-scroll">How It Works</h2>
-        <div class="steps">
-          <div class="step animate-on-scroll animate-stagger-1">
-            <div class="step-number animate-bounce-in">1</div>
-            <h3>Teachers Create Questions</h3>
-            <p>Add questions to your secure course bank, set points, and categorize them effortlessly in the teacher portal.</p>
-          </div>
-          
-          <div class="step animate-on-scroll animate-stagger-2">
-            <div class="step-number animate-bounce-in">2</div>
-            <h3>Students Log In</h3>
-            <p>Students use their secure credentials (or student ID) to log in and select the assignment for their specific course.</p>
-          </div>
-          
-          <div class="step animate-on-scroll animate-stagger-3">
-            <div class="step-number animate-bounce-in">3</div>
-            <h3>Get Unique Question Set</h3>
-            <p>Our algorithm instantly generates a personalized assignment with a unique question order for maximum integrity.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contributors" class="contributors">
-      <div class="container">
-        <h2 class="section-title animate-on-scroll">Our Contributors</h2>
-        <p class="section-subtitle animate-on-scroll">A huge thank you to the talented people helping build Clover.</p>
-        <div class="contributors-grid">
-          
-          <div class="contributor-card animate-on-scroll animate-stagger-1">
-            <img src="./images/aditya_nau.jpg" alt="Aditya Nautiyal" class="contributor-photo animate-float">
-            <h4 class="contributor-name">Aditya Nautiyal</h4>
-            <p class="contributor-role">Lead Developer</p>
-            <a href="https://github.com/AdityaNautiyal908" target="_blank" class="contributor-link">GitHub Profile</a>
-          </div>
-
-          <div class="contributor-card animate-on-scroll animate-stagger-2">
-            <img src="./images/aparna.jpg" alt="Aparna Singh" class="contributor-photo animate-float" style="animation-delay: 0.3s;">
-            <h4 class="contributor-name">Aparna Singh</h4>
-            <p class="contributor-role">UX/UI Designer</p>
-            <a href="https://github.com/AS2509X" target="_blank" class="contributor-link">GitHub Profile</a>
-          </div>
-
-          <div class="contributor-card animate-on-scroll animate-stagger-3">
-            <img src="./images/luffy.jpg" alt="Monkey D Luffy" class="contributor-photo animate-float" style="animation-delay: 0.6s;">
-            <h4 class="contributor-name">Monkey D Luffy</h4>
-            <p class="contributor-role">Tester</p>
-            <a href="https://github.com/alicejohnson" target="_blank" class="contributor-link">GitHub Profile</a>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-section">
-      <div class="container">
-        <h2 class="animate-on-scroll">Ready to End Assignment Cheating?</h2>
-        <p class="animate-on-scroll">Join thousands of teachers and students who are already using Clover for fair, personalized assignments.</p>
-        <div class="cta-actions animate-on-scroll">
-          <a href="./register.html" class="btn btn-primary btn-large animate-bounce-in">Create Free Account</a>
-          <a href="./login.html" class="btn btn-secondary btn-large animate-bounce-in">Sign In</a>
-        </div>
-      </div>
-    </section>
+    </footer>
     
-  </main>
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Clover</h3>
-          <p>Making assignments fair and personalized for every student.</p>
-        </div>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.getElementById('page-body');
         
-        <div class="footer-section">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="./login.html">Login</a></li>
-            <li><a href="./register.html">Register</a></li>
-            <li><a href="./teacher.html">Teacher Portal</a></li>
-            <li><a href="./student.html">Student Portal</a></li>
-          </ul>
-        </div>
+        // Function to set theme
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.add('dark-theme');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-theme');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            // Check OS preference
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+
+        // Toggle button listener
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.classList.contains('dark-theme') ? 'dark' : 'light';
+            setTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
         
-        <div class="footer-section">
-          <h4>Features</h4>
-          <ul>
-            <li><a href="#features">Personalized Questions</a></li>
-            <li><a href="#features">Course Management</a></li>
-            <li><a href="#features">Teacher Dashboard</a></li>
-            <li><a href="#features">Secure Platform</a></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <p>&copy; <span id="year"></span> Clover. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-  <script src="./js/landing.js"></script>
-  <script>
-   
-  </script>
+        // Function to set the active content based on data-id
+        const setActiveContent = (id) => {
+            // 1. Deactivate all triggers and content
+            document.querySelectorAll('.scroll-trigger').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.content-item').forEach(el => el.classList.remove('active'));
+
+            // 2. Activate the corresponding trigger and content
+            const activeTrigger = document.querySelector(`.scroll-trigger[data-id="${id}"]`);
+            const activeContent = document.querySelector(`.content-item[data-id="${id}"]`);
+
+            if (activeTrigger) activeTrigger.classList.add('active');
+            if (activeContent) activeContent.classList.add('active');
+        };
+
+        // Main function to initialize the sticky-scroll observer, adapting for screen size
+        function initializeStickyScrollObserver() {
+            const triggers = document.querySelectorAll('.scroll-trigger');
+            
+            // Check if we are in the mobile layout (max-width: 768px in CSS)
+            const isMobileLayout = window.innerWidth <= 768;
+
+            let observerOptions;
+
+            if (isMobileLayout) {
+                // Mobile Layout: Content is stacked. 
+                // Trigger when the element scrolls near the vertical center of the viewport.
+                // rootMargin: "0px 0px -50% 0px" triggers when the element's top edge scrolls past the 50% mark of the viewport.
+                observerOptions = {
+                    root: null, 
+                    threshold: 0, 
+                    rootMargin: "0px 0px -50% 0px" 
+                };
+            } else {
+                // Desktop/Sticky Layout: Content is fixed.
+                // Trigger when the element's top edge crosses the sticky point (100px from the top).
+                observerOptions = {
+                    root: null, 
+                    threshold: 0, 
+                    rootMargin: "-100px 0px 0px 0px" 
+                };
+            }
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    // We only care about entries that are entering the viewport (intersectionRatio > 0)
+                    // and specifically when they cross the calculated margin line.
+                    if (entry.isIntersecting) {
+                        const id = entry.target.dataset.id;
+                        setActiveContent(id);
+                    }
+                });
+            };
+
+            // Dispose of any previous observer to avoid duplicates on resize
+            if (window.stickyObserver) {
+                window.stickyObserver.disconnect();
+            }
+
+            // Create and apply the new adaptive observer
+            const stickyObserver = new IntersectionObserver(observerCallback, observerOptions);
+            window.stickyObserver = stickyObserver; 
+
+            triggers.forEach(trigger => {
+                stickyObserver.observe(trigger);
+            });
+
+            // Fallback/Initial State: Set the first item active on load
+            if (triggers.length > 0) {
+                setActiveContent(triggers[0].dataset.id);
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize the adaptive scroll observer
+            initializeStickyScrollObserver();
+
+            // Re-initialize the observer on window resize to switch between mobile/desktop modes
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(initializeStickyScrollObserver, 250);
+            });
+            
+            // ===============================================
+            // ORIGINAL SCROLL ANIMATION JAVASCRIPT (for other animations)
+            // ===============================================
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        
+                        // Specific animation for code lines
+                        if (entry.target.classList.contains('code-block')) {
+                            entry.target.querySelectorAll('.code-line').forEach(line => {
+                                line.style.opacity = 1;
+                            });
+                        }
+
+                        // Specific animation for stats
+                        if (entry.target.classList.contains('hero-stats')) {
+                            entry.target.querySelectorAll('.stat-number').forEach(stat => {
+                                stat.classList.add('animated');
+                                // Simple counter-up logic (optional, for stat-number)
+                                if (stat.dataset.count) {
+                                    const targetCount = parseInt(stat.dataset.count);
+                                    let currentCount = 0;
+                                    const increment = targetCount / 100;
+                                    
+                                    const timer = setInterval(() => {
+                                        currentCount += increment;
+                                        if (currentCount >= targetCount) {
+                                            stat.textContent = targetCount;
+                                            clearInterval(timer);
+                                        } else {
+                                            stat.textContent = Math.ceil(currentCount);
+                                        }
+                                    }, 8);
+                                }
+                            });
+                        }
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            // Apply observer to all elements with 'animate-on-scroll' class
+            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                scrollObserver.observe(element);
+            });
+
+            // Initialize animations on load for elements above the fold
+            document.querySelectorAll('.animate-slide-in-top, .animate-fade-in-left, .animate-fade-in-right, .animate-fade-in-up, .animate-bounce-in, .animate-float, .animate-fade-in-scale').forEach(element => {
+                element.style.opacity = '1';
+            });
+        });
+    </script>
 </body>
 </html>
