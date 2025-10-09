@@ -105,7 +105,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center; /* Center the title vertically in its zone */
-            opacity: 0.3; /* Non-active title is dim */
+            opacity: 0.3; /* Non-active title is dim (Desktop only) */
             transition: opacity 0.5s;
             cursor: default;
         }
@@ -132,7 +132,7 @@
         /* Right Column: The Sticky Content Display (Desktop) */
         .features-right-column {
             flex: 1;
-            /* CRUCIAL: Make the entire content display sticky */
+            /* CRUCIAL: Make the entire content display sticky (Desktop default) */
             position: sticky;
             top: 100px; /* Sticks below the fixed header (~60px) + a little margin */
             height: 70vh; /* The height of the sticky viewport for the content */
@@ -147,7 +147,7 @@
         }
 
         .content-item {
-            position: absolute;
+            position: absolute; /* Positioned for desktop sticky effect */
             top: 0;
             left: 0;
             width: 100%;
@@ -177,13 +177,75 @@
         .step-number { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-primary); color: var(--color-text-light); font-weight: var(--font-weight-bold); margin-bottom: var(--space-sm); font-size: 1.25rem; }
         .step h3 { color: var(--color-primary-dark); }
 
-        /* Contributors (existing styles) */
-        .contributors { background-color: var(--color-background-card); }
-        .contributors-grid { display: flex; justify-content: center; gap: var(--space-xl); flex-wrap: wrap; }
-        .contributor-card { width: 250px; text-align: center; padding: var(--space-lg); border-radius: 12px; background-color: var(--color-background-page); box-shadow: 0 4px 15px var(--color-shadow); transition: transform 0.3s ease, background-color 0.3s, box-shadow 0.3s; }
-        .contributor-card:hover { transform: scale(1.05); }
+        /* Contributors (UPDATED STYLES FOR 3D CAROUSEL) */
+        .contributors { 
+            background-color: var(--color-background-card); 
+            padding: var(--space-xxl) 0;
+        }
+        
+        /* NEW CAROUSEL STYLES */
+        .carousel-container {
+            position: relative; /* For positioning buttons */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 450px; /* Define the height of the entire carousel area */
+            perspective: 1000px; /* Defines the depth of the 3D space */
+        }
+
+        .contributors-grid { /* The carousel track */
+            position: absolute; /* Needed for 3D rotation */
+            width: 250px; /* Width of a single card */
+            height: 350px; /* Height of a single card */
+            transform-style: preserve-3d; /* Crucial for 3D effect */
+            transition: transform 0.8s ease-in-out; /* Smooth rotation */
+        }
+
+        .contributor-card {
+            /* Keep existing card styles, but add positioning for 3D */
+            position: absolute;
+            width: 250px; /* Card width */
+            height: 350px; /* Card height */
+            backface-visibility: hidden; /* Prevent flickering */
+            transition: transform 0.8s, box-shadow 0.3s, opacity 0.8s, z-index 0.1s;
+            cursor: grab; /* Indicate interaction */
+            text-align: center; 
+            padding: var(--space-lg); 
+            border-radius: 12px; 
+            background-color: var(--color-background-page); 
+            box-shadow: 0 4px 15px var(--color-shadow);
+        }
+        .contributor-card:hover { transform: scale(1.0); } /* Override scale on hover to prevent jumping */
         .contributor-photo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: var(--space-sm); border: 4px solid var(--color-primary); box-shadow: 0 0 0 4px var(--color-background-card); transition: box-shadow 0.3s; }
         .contributor-role { font-style: italic; color: var(--color-text-muted); margin-bottom: var(--space-sm); }
+        .contributor-link { font-size: 0.9em; }
+
+        /* Navigation Buttons */
+        .carousel-prev, .carousel-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            border: none;
+            padding: 1rem 0.75rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 10;
+            opacity: 0.8;
+            transition: opacity 0.3s, background-color 0.3s;
+            border-radius: 4px;
+            line-height: 1;
+        }
+
+        .carousel-prev:hover, .carousel-next:hover {
+            opacity: 1;
+            background-color: var(--color-primary-dark);
+        }
+
+        .carousel-prev { left: 0; margin-left: var(--space-md); }
+        .carousel-next { right: 0; margin-right: var(--space-md); }
+
 
         /* CTA Section (existing styles) */
         .cta-section { background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); color: var(--color-text-light); padding: var(--space-xxl) 0; text-align: center; }
@@ -217,31 +279,79 @@
         @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
         @media (max-width: 992px) { .hero-title { font-size: 3rem; } .footer-content { justify-content: space-around; } }
         @media (max-width: 768px) { 
-            /* Simplified mobile layout for scroll sync section */
+            /* === MOBILE LAYOUT FOR SCROLL SECTION === */
             .features-wrapper { flex-direction: column; }
             .features-left-column { padding-right: 0; }
-            .scroll-trigger { min-height: 40vh; opacity: 1; text-align: center; } /* Opacity set to 1 on mobile since titles are not synced */
+            .scroll-trigger { 
+                min-height: 40vh; 
+                opacity: 1; /* Titles are always full opacity on mobile */
+                text-align: center; 
+            }
             
             /* Mobile: Disable Sticky behavior, make content appear naturally in flow */
             .features-right-column { 
-                position: relative; 
+                position: relative; /* Disables sticky positioning */
                 top: auto; 
                 height: 50vh; 
-                margin: var(--space-lg) auto; /* Center it */
-                max-width: 90%; /* Constrain width */
+                margin: var(--space-lg) auto; 
+                max-width: 90%; 
+                overflow: visible; /* Content display isn't fixed, allow normal scrolling */
             }
+            
+            /* Mobile: Only show the active content item in the flow */
             .content-item {
-                 /* Reset positioning for mobile stacked layout */
-                position: relative;
+                position: relative; /* Reset absolute positioning */
                 transform: none;
                 opacity: 1; 
-                transition: none; /* Disable transitions when stacked */
-                display: none; /* Hide non-active items in stacked layout */
+                transition: none; /* Disable complex transitions when stacked */
+                display: none; /* HIDE non-active items */
+                height: 100%;
             }
-             .content-item.active {
-                display: flex; /* Show the active item in stacked layout */
+            .content-item.active {
+                display: flex; /* SHOW the active item */
                 opacity: 1;
                 transform: none;
+            }
+
+            /* === MOBILE LAYOUT FOR CAROUSEL === */
+            .carousel-container {
+                perspective: none; /* Disable 3D on mobile */
+                height: auto;
+                padding-bottom: 50px; 
+            }
+            
+            .contributors-grid {
+                position: relative; /* Stack cards vertically */
+                transform-style: flat;
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-xl);
+                width: 100%;
+                height: auto;
+                transform: none !important; /* Ensure no rotation */
+            }
+            
+            .contributor-card {
+                position: relative;
+                transform: none !important; /* Disable all 3D transforms */
+                opacity: 1 !important; /* Ensure full opacity */
+                z-index: auto !important;
+                margin: 0 auto;
+                width: 80%;
+            }
+
+            .carousel-prev, .carousel-next {
+                position: relative; /* Stack buttons below the grid */
+                display: inline-block;
+                width: auto;
+                transform: none;
+                margin: var(--space-sm);
+            }
+            .carousel-container {
+                display: block; /* Allow column layout */
+            }
+            .carousel-nav-wrapper {
+                text-align: center;
             }
 
 
@@ -415,7 +525,7 @@
         </section>
         <section class="how-it-works">
             <div class="container">
-                <h2 class="section-title animate-on-scroll">How It Works </h2>
+                <h2 class="section-title animate-on-scroll">How It Works </h2>
                 <div class="steps">
                     <div class="step animate-on-scroll animate-stagger-1">
                         <div class="step-number animate-bounce-in">1</div>
@@ -442,30 +552,36 @@
             <div class="container">
                 <h2 class="section-title animate-on-scroll">Our Contributors</h2>
                 <p class="section-subtitle animate-on-scroll">A huge thank you to the talented people helping build Clover.</p>
-                <div class="contributors-grid">
-                    
-                    <div class="contributor-card animate-on-scroll animate-stagger-1">
-                        <img src="./images/aditya_nau.jpg" alt="Aditya Nautiyal" class="contributor-photo animate-float">
-                        <h4 class="contributor-name">Aditya Nautiyal</h4>
-                        <p class="contributor-role">Lead Developer</p>
-                        <a href="https://github.com/AdityaNautiyal908" target="_blank" class="contributor-link">GitHub Profile</a>
-                    </div>
+                
+                <div class="carousel-container">
+                    <div class="contributors-grid carousel-track">
+                        
+                        <div class="contributor-card carousel-item" data-id="0">
+                            <img src="./images/aditya_nau.jpg" alt="Aditya Nautiyal" class="contributor-photo animate-float">
+                            <h4 class="contributor-name">Aditya Nautiyal</h4>
+                            <p class="contributor-role">Lead Developer</p>
+                            <a href="https://github.com/AdityaNautiyal908" target="_blank" class="contributor-link">GitHub Profile</a>
+                        </div>
 
-                    <div class="contributor-card animate-on-scroll animate-stagger-2">
-                        <img src="./images/aparna.jpg" alt="Aparna Singh" class="contributor-photo animate-float" style="animation-delay: 0.3s;">
-                        <h4 class="contributor-name">Aparna Singh</h4>
-                        <p class="contributor-role">UX/UI Designer</p>
-                        <a href="https://github.com/AS2509X" target="_blank" class="contributor-link">GitHub Profile</a>
-                    </div>
+                        <div class="contributor-card carousel-item" data-id="1">
+                            <img src="./images/aparna.jpg" alt="Aparna Singh" class="contributor-photo animate-float" style="animation-delay: 0.3s;">
+                            <h4 class="contributor-name">Aparna Singh</h4>
+                            <p class="contributor-role">UX/UI Designer</p>
+                            <a href="https://github.com/AS2509X" target="_blank" class="contributor-link">GitHub Profile</a>
+                        </div>
 
-                    <div class="contributor-card animate-on-scroll animate-stagger-3">
-                        <img src="./images/luffy.jpg" alt="Monkey D Luffy" class="contributor-photo animate-float" style="animation-delay: 0.6s;">
-                        <h4 class="contributor-name">Monkey D Luffy</h4>
-                        <p class="contributor-role">Tester</p>
-                        <a href="https://github.com/alicejohnson" target="_blank" class="contributor-link">GitHub Profile</a>
-                    </div>
+                        <div class="contributor-card carousel-item" data-id="2">
+                            <img src="./images/luffy.jpg" alt="Monkey D Luffy" class="contributor-photo animate-float" style="animation-delay: 0.6s;">
+                            <h4 class="contributor-name">Monkey D Luffy</h4>
+                            <p class="contributor-role">Tester</p>
+                            <a href="https://github.com/alicejohnson" target="_blank" class="contributor-link">GitHub Profile</a>
+                        </div>
 
+                    </div>
+                    <button class="carousel-prev">◀</button>
+                    <button class="carousel-next">▶</button>
                 </div>
+
             </div>
         </section>
 
@@ -555,6 +671,85 @@
             setTheme(currentTheme === 'light' ? 'dark' : 'light');
         });
         
+        // ===============================================
+        // NEW 3D CAROUSEL JAVASCRIPT
+        // ===============================================
+
+        function initializeCarousel() {
+            const carousel = document.querySelector('.carousel-track');
+            const items = document.querySelectorAll('.carousel-item');
+            const prevButton = document.querySelector('.carousel-prev');
+            const nextButton = document.querySelector('.carousel-next');
+
+            // Do not initialize if not enough items or in mobile view where 3D is disabled
+            const isMobileLayout = window.innerWidth <= 768;
+            if (!carousel || items.length === 0 || isMobileLayout) {
+                 // On mobile, ensure all cards are visible and stacked normally
+                items.forEach(item => {
+                    item.style.opacity = 1;
+                    item.style.zIndex = 1;
+                });
+                return;
+            }
+
+            const numItems = items.length;
+            let currentRotation = 0;
+            const angle = 360 / numItems;
+            // Calculate the radius for the 3D cylinder/prism effect (Card width: 250px)
+            const radius = Math.round((250 / 2) / Math.tan(Math.PI / numItems));
+
+            // 1. Initial positioning of cards in 3D space
+            items.forEach((item, index) => {
+                item.style.transform = 
+                    `rotateY(${index * angle}deg) translateZ(${radius}px)`;
+            });
+
+            // 2. Rotation function
+            const rotateCarousel = () => {
+                // Apply the new rotation to the entire carousel track
+                carousel.style.transform = `rotateY(${currentRotation}deg)`;
+
+                // Update the z-index and opacity for the active card
+                items.forEach((item, index) => {
+                    const itemAngle = index * angle;
+                    let relativeAngle = (itemAngle + currentRotation) % 360;
+                    if (relativeAngle < 0) relativeAngle += 360; // Handle negative angles
+
+                    // Normalize to a 0-180 range from the front (0 is front)
+                    const proximity = Math.min(Math.abs(relativeAngle), Math.abs(relativeAngle - 360));
+                    
+                    // Set Z-index and opacity to bring the front-facing card forward
+                    if (proximity < angle / 2) {
+                        item.style.zIndex = 10;
+                        item.style.opacity = 1;
+                    } else {
+                        item.style.zIndex = 1;
+                        item.style.opacity = 0.5; // Dim non-active cards
+                    }
+                });
+            };
+            
+            // Initial state setup
+            rotateCarousel();
+
+
+            // 3. Navigation listeners
+            prevButton.addEventListener('click', () => {
+                currentRotation += angle;
+                rotateCarousel();
+            });
+
+            nextButton.addEventListener('click', () => {
+                currentRotation -= angle;
+                rotateCarousel();
+            });
+        }
+
+
+        // ===============================================
+        // ADAPTIVE SCROLL-SYNC JAVASCRIPT
+        // ===============================================
+        
         // Function to set the active content based on data-id
         const setActiveContent = (id) => {
             // 1. Deactivate all triggers and content
@@ -580,8 +775,6 @@
 
             if (isMobileLayout) {
                 // Mobile Layout: Content is stacked. 
-                // Trigger when the element scrolls near the vertical center of the viewport.
-                // rootMargin: "0px 0px -50% 0px" triggers when the element's top edge scrolls past the 50% mark of the viewport.
                 observerOptions = {
                     root: null, 
                     threshold: 0, 
@@ -589,7 +782,6 @@
                 };
             } else {
                 // Desktop/Sticky Layout: Content is fixed.
-                // Trigger when the element's top edge crosses the sticky point (100px from the top).
                 observerOptions = {
                     root: null, 
                     threshold: 0, 
@@ -599,8 +791,7 @@
 
             const observerCallback = (entries, observer) => {
                 entries.forEach(entry => {
-                    // We only care about entries that are entering the viewport (intersectionRatio > 0)
-                    // and specifically when they cross the calculated margin line.
+                    // Only switch content when the element is intersecting (scrolling into view based on the margin)
                     if (entry.isIntersecting) {
                         const id = entry.target.dataset.id;
                         setActiveContent(id);
@@ -631,12 +822,20 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize the adaptive scroll observer
             initializeStickyScrollObserver();
+            
+            // Initialize the 3D Carousel (NEW)
+            initializeCarousel();
 
             // Re-initialize the observer on window resize to switch between mobile/desktop modes
+            // We debounce the resize event for performance
             let resizeTimer;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(initializeStickyScrollObserver, 250);
+                resizeTimer = setTimeout(() => {
+                    initializeStickyScrollObserver();
+                    // Re-initialize carousel on resize might be necessary for mobile layout switch
+                    initializeCarousel(); 
+                }, 250);
             });
             
             // ===============================================
